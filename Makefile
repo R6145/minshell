@@ -6,7 +6,7 @@
 #    By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/03 18:19:18 by fmaqdasi          #+#    #+#              #
-#    Updated: 2024/02/04 20:09:40 by fmaqdasi         ###   ########.fr        #
+#    Updated: 2024/02/05 22:34:09 by fmaqdasi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,9 @@ LIBFT = libft/libft.a
 
 SRCS        := 				parscing.c \
                             parscingii.c \
+							excuation.c \
+							excuationii.c \
+							excuationiii.c \
 
 
 SRCSM1       :=            minishell.c \

@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:12:56 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/02/04 23:18:34 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/02/05 22:51:28 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,30 @@ typedef struct s_list2
 	char	**envps;
 }			t_Minishell;
 
+// parscing
 char		**cut_commands(char *line);
 int			asign_command(char **commands, char *line, int *pos, int amount);
-void		freeall(char **st, int j);
 int			amount_of_commands(char *line);
 int			*cut_pos(char *line);
 int			between_quo(char *line, int x);
 void		between_quo_extra(char line, int *flag, int *flag2, char s);
+// freeing functions
+void		freeall(char **st, int j);
+// excucation
+void		free_split(char **var);
+char		*find_path(char **envp);
+char		*create_command(char *command, char *path);
+int			excute_command(char **argv, char **envp, int x);
+int			excute_command_d(char *cmd, char **envp);
+pid_t		forking(int **fd, int argc);
+int			**fd_create(int argc);
+void		piping(int **x, int argc);
+void		close_pipe(int **fd, int argc);
+void		free_pipe(int **fd);
+void		child(char **argv, char **envp, int **pipe_fd, int i);
+void		middle_child(char **argv, char **envp, int **pipe_fd, int i);
+void		middle(char **argv, char **envp, int **pipe_fd, int i);
+void		parent(char **argv, char **envp, int **pipe_fd, int i);
+int			pipex(int argc, char **argv, char **envp);
 
 #endif
