@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 19:52:53 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/02/04 23:20:15 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/02/07 23:07:55 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,30 @@ void	freeall(char **st, int j)
 		j--;
 	}
 	free(st);
+}
+
+char	**create_spilt_commands(char **cmd, int cmd_num)
+{
+	int		i;
+	int		j;
+	char	**cmd2;
+
+	i = 2;
+	j = 0;
+	cmd2 = (char **)malloc(sizeof(char *) * (cmd_num + 4));
+	cmd2[0] = (char *)malloc(sizeof(char) * 6);
+	ft_strlcpy(cmd2[0], "pipex", 6);
+	cmd2[1] = (char *)malloc(sizeof(char) * 10);
+	ft_strlcpy(cmd2[1], "/dev/tty", 10);
+	while (i <= cmd_num + 1)
+	{
+		cmd2[i] = (char *)malloc(sizeof(char) * (ft_strlen(cmd[j]) + 1));
+		ft_strlcpy(cmd2[i], cmd[j], ft_strlen(cmd[j]) + 1);
+		j = j + 2;
+		i++;
+	}
+	cmd2[i] = (char *)malloc(sizeof(char) * 10);
+	ft_strlcpy(cmd2[i++], "/dev/tty", 10);
+	cmd2[i] = NULL;
+	return (cmd2);
 }

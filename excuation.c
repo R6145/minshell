@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 23:20:37 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/02/05 22:50:55 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/02/07 22:23:54 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int	excute_command(char **argv, char **envp, int x)
 		ft_putstr_fd("Error: Unknown Command\n", 2);
 		free_split(command);
 		free(command1);
+		free_split(argv);
 		return (-1);
 	}
 	if (execve(command1, command, envp) == -1)

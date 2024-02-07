@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:35:25 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/02/04 22:36:21 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/02/07 19:55:04 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	amount_of_commands(char *line)
 	i = 0;
 	while (line[i])
 	{
-		if ((line[i] == ';' || line[i] == '|') && (between_quo(line, i) == 0))
+		if ((line[i] == '|') && (between_quo(line, i) == 0))
 		{
 			is_command = 0;
 			amount++;
@@ -51,7 +51,7 @@ int	*cut_pos(char *line)
 	j = 0;
 	while (line[i] != '\0')
 	{
-		if ((line[i] == ';' || line[i] == '|') && (between_quo(line, i) == 0))
+		if ((line[i] == '|') && (between_quo(line, i) == 0))
 		{
 			x[j] = i;
 			j++;

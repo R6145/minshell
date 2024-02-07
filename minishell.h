@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:12:56 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/02/05 22:51:28 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/02/07 22:41:11 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ typedef struct s_list2
 {
 	char	**commands;
 	char	**envps;
-}			t_Minishell;
+	int		number_of_commands;
+}			t_minishell;
 
 // parscing
 char		**cut_commands(char *line);
@@ -51,10 +52,11 @@ int			**fd_create(int argc);
 void		piping(int **x, int argc);
 void		close_pipe(int **fd, int argc);
 void		free_pipe(int **fd);
-void		child(char **argv, char **envp, int **pipe_fd, int i);
-void		middle_child(char **argv, char **envp, int **pipe_fd, int i);
-void		middle(char **argv, char **envp, int **pipe_fd, int i);
+void		child(char **argv, char **envp, int **pipe_fd, int i[2]);
+void		middle_child(char **argv, char **envp, int **pipe_fd, int i[2]);
+void		middle(char **argv, char **envp, int **pipe_fd, int i[2]);
 void		parent(char **argv, char **envp, int **pipe_fd, int i);
 int			pipex(int argc, char **argv, char **envp);
+char		**create_spilt_commands(char **cmd, int cmd_num);
 
 #endif
