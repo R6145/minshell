@@ -6,51 +6,90 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:13:25 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/02/07 22:59:43 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/02/09 20:30:39 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	int			j;
+// 	char		**x;
+// 	char		**y;
+// 	char		*inpt;
+// 	pid_t		pd;
+// 	t_minishell	mini;
+
+// 	(void)argc;
+// 	(void)argv;
+// 	j = 0;
+// 	while (j < 10)
+// 	{
+// 		inpt = readline("Enter text: ");
+// 		add_history(inpt);
+// 		pd = fork();
+// 		if (pd == 0)
+// 		{
+// 			x = cut_commands(inpt);
+// 			mini.number_of_commands = (amount_of_commands(inpt) + 1) / 2;
+// 			y = create_pipex_commands(x, mini.number_of_commands);
+// 			freeall(x, amount_of_commands(inpt));
+// 			pipex(mini.number_of_commands + 3, y, envp);
+// 		}
+// 		wait(NULL);
+// 		j++;
+// 	}
+// 	return (0);
+// }
+
 int	main(int argc, char **argv, char **envp)
 {
 	int			j;
 	char		**x;
-	char		**y;
 	char		*inpt;
-	pid_t		pd;
+	int			i;
 	t_minishell	mini;
 
-	// int			i;
-	// i = 0;
+	// pid_t		pd;
+	// char		**y;
+	i = 0;
 	(void)argc;
 	(void)argv;
 	(void)envp;
 	j = 0;
 	while (j < 10)
 	{
-		// i = 0;
+		i = 0;
 		inpt = readline("Enter text: ");
+		add_history(inpt);
+		inti(&mini);
 		// inpt = "'xxx;' ; 'xx' ";
-		pd = fork();
-		if (pd == 0)
+		// pd = fork();
+		// if (pd == 0)
+		// {
+		// (null) i;
+		x = cut_commands(inpt);
+		// excute_command(x[0],envp);
+		// mini.number_of_commands = (amount_of_commands(inpt) + 1) / 2;
+		// y = create_pipex_commands(x, mini.number_of_commands);
+		// printf("%d\n", mini.number_of_commands);
+		check_for_ipop(&mini, x);
+		while (x[i] != NULL)
 		{
-			// (null) i;
-			x = cut_commands(inpt);
-			// excute_command(x[0],envp);
-			mini.number_of_commands = (amount_of_commands(inpt) + 1) / 2;
-			y = create_spilt_commands(x, mini.number_of_commands);
-			// printf("%d\n", mini.number_of_commands);
-			// while (y[i] != NULL)
-			// {
-			// 	printf("%s\n", y[i]);
-			// 	i++;
-			// }
-			freeall(x, amount_of_commands(inpt));
-			pipex(mini.number_of_commands + 3, y, envp);
-			// freeall(y, mini.number_of_commands + 3);
+			printf("%s\n", x[i]);
+			printf("%d\n", mini.input[i]);
+			printf("%d\n", mini.output[i]);
+			printf("%d\n", mini.inp_type[i]);
+			printf("%d\n", mini.out_type[i]);
+			printf("|||||||||\n");
+			i++;
 		}
-		wait(NULL);
+		freeall(x, amount_of_commands(inpt));
+		// pipex(mini.number_of_commands + 3, y, envp);
+		// freeall(y, mini.number_of_commands + 3);
+		// }
+		// wait(NULL);
 		// printf("%d",x);
 		// printf("\n");
 		// free(x);

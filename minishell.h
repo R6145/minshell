@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:12:56 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/02/07 22:41:11 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/02/09 20:41:27 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,21 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
+# define MAX_COMMANDS 1000
+
 typedef struct s_list2
 {
 	char	**commands;
 	char	**envps;
 	int		number_of_commands;
+	int		input[1000];
+	int		inp_type[1000];
+	int		output[1000];
+	int		out_type[1000];
 }			t_minishell;
 
+// minishell utills
+void		inti(t_minishell *mini);
 // parscing
 char		**cut_commands(char *line);
 int			asign_command(char **commands, char *line, int *pos, int amount);
@@ -39,10 +47,15 @@ int			amount_of_commands(char *line);
 int			*cut_pos(char *line);
 int			between_quo(char *line, int x);
 void		between_quo_extra(char line, int *flag, int *flag2, char s);
+int			amount_of_arg(char **cmd);
+void		check_for_ipop(t_minishell *mini, char **cmd);
+void		check_for_ipop2(t_minishell *mini, char **cmd, int i);
+void		ipop_type(t_minishell *mini, char *line, int j, int i);
 // freeing functions
 void		freeall(char **st, int j);
-// excucation
+void		free_pipe(int **fd);
 void		free_split(char **var);
+// excucation
 char		*find_path(char **envp);
 char		*create_command(char *command, char *path);
 int			excute_command(char **argv, char **envp, int x);
@@ -51,12 +64,11 @@ pid_t		forking(int **fd, int argc);
 int			**fd_create(int argc);
 void		piping(int **x, int argc);
 void		close_pipe(int **fd, int argc);
-void		free_pipe(int **fd);
 void		child(char **argv, char **envp, int **pipe_fd, int i[2]);
 void		middle_child(char **argv, char **envp, int **pipe_fd, int i[2]);
 void		middle(char **argv, char **envp, int **pipe_fd, int i[2]);
 void		parent(char **argv, char **envp, int **pipe_fd, int i);
 int			pipex(int argc, char **argv, char **envp);
-char		**create_spilt_commands(char **cmd, int cmd_num);
+char		**create_pipex_commands(char **cmd, int cmd_num);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 19:52:53 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/02/07 23:07:55 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/02/09 20:18:53 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ char	**cut_commands(char *line)
 		return (free(pos), NULL);
 	if (asign_command(sep, line, pos, amount) == -1)
 		return (free(pos), NULL);
+	sep[amount] = NULL;
 	free(pos);
 	return (sep);
 }
@@ -65,7 +66,7 @@ void	freeall(char **st, int j)
 	free(st);
 }
 
-char	**create_spilt_commands(char **cmd, int cmd_num)
+char	**create_pipex_commands(char **cmd, int cmd_num)
 {
 	int		i;
 	int		j;
@@ -89,4 +90,16 @@ char	**create_spilt_commands(char **cmd, int cmd_num)
 	ft_strlcpy(cmd2[i++], "/dev/tty", 10);
 	cmd2[i] = NULL;
 	return (cmd2);
+}
+
+int	amount_of_arg(char **cmd)
+{
+	int	i;
+
+	i = 0;
+	while (cmd[i] != NULL)
+	{
+		i++;
+	}
+	return (i);
 }

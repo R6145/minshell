@@ -6,13 +6,13 @@
 #    By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/03 18:19:18 by fmaqdasi          #+#    #+#              #
-#    Updated: 2024/02/07 22:43:59 by fmaqdasi         ###   ########.fr        #
+#    Updated: 2024/02/09 20:32:03 by fmaqdasi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME        := minishell
 CC          := cc
-CFLAGS       := -Wall -Wextra -Werror 
+CFLAGS       := -Wall -Wextra -Werror -fsanitize=address -g3
 RM		    := rm -f
 INCLUDE = -Ilibft/
 LIBFT_DIR = libft/
@@ -23,6 +23,9 @@ SRCS        := 				parscing.c \
 							excuation.c \
 							excuationii.c \
 							excuationiii.c \
+							parscingiii.c \
+							mini_util.c \
+							
 
 
 SRCSM1       :=            minishell.c \
