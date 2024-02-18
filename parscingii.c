@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 19:52:53 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/02/18 17:26:09 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/02/18 18:20:55 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ char	**create_pipex_commands(char **cmd, int cmd_num)
 	{
 		cmd2[i] = (char *)malloc(sizeof(char) * (ft_strlen(cmd[j]) + 1));
 		ft_strlcpy(cmd2[i], cmd[j], ft_strlen(cmd[j]) + 1);
-		j = j + 2;
+		j++;
 		i++;
 	}
 	cmd2[i] = (char *)malloc(sizeof(char) * 10);

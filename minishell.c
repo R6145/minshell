@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:13:25 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/02/18 17:29:29 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/02/18 18:22:41 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,33 +16,33 @@
 
 int	main(int argc, char **argv, char **envp)
 {
+	int			j;
 	char		**x;
 	char		**y;
+	char		*inpt;
 	pid_t		pd;
 	t_minishell	mini;
 
-	// int			j;
-	// char		*inpt;
 	(void)argc;
 	(void)argv;
-	// j = 0;
-	// while (j < 10)
-	// {
-	// inpt = readline("Enter text: ");
-	// add_history(inpt);
-	pd = fork();
-	if (pd == 0)
+	j = 0;
+	while (j < 10)
 	{
-		x = cut_commands("ls | grep mini | wc");
-		mini.number_of_commands = (amount_of_commands("ls | grep mini | wc")
-				+ 1) / 2;
-		y = create_pipex_commands(x, mini.number_of_commands);
-		freeall(x, amount_of_commands("ls | grep mini | wc"));
-		pipex(mini.number_of_commands + 3, y, envp);
+		inpt = readline("Enter text: ");
+		add_history(inpt);
+		pd = fork();
+		if (pd == 0)
+		{
+			x = cut_commands(inpt);
+			mini.number_of_commands = amount_of_commands(inpt);
+			y = create_pipex_commands(x, mini.number_of_commands);
+			freeall(x, mini.number_of_commands);
+			printf("%d\n", mini.number_of_commands);
+			pipex(mini.number_of_commands + 3, y, envp);
+		}
+		wait(NULL);
+		j++;
 	}
-	wait(NULL);
-	// j++;
-	// }
 	return (0);
 }
 
