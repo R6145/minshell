@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:12:56 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/02/09 20:41:27 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/02/18 17:08:55 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void		free_split(char **var);
 // excucation
 char		*find_path(char **envp);
 char		*create_command(char *command, char *path);
+char		*create_command_extra(char *command, char *args);
 int			excute_command(char **argv, char **envp, int x);
 int			excute_command_d(char *cmd, char **envp);
 pid_t		forking(int **fd, int argc);
