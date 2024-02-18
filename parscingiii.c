@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 17:55:08 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/02/09 20:28:32 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/02/18 21:34:00 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	ipop_type(t_minishell *mini, char *line, int j, int i)
 		mini->output[i] = j;
 		mini->out_type[i] = 1;
 	}
-	else if (ft_strncmp(line, "<<", 2) == 0)
+	else if (ft_strncmp(line, ">>", 2) == 0)
 	{
 		mini->output[i] = j;
 		mini->out_type[i] = 2;

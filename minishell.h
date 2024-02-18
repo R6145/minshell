@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:12:56 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/02/18 17:08:55 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/02/18 18:49:57 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_list2
 	int		inp_type[1000];
 	int		output[1000];
 	int		out_type[1000];
+	int		temp[2];
 }			t_minishell;
 
 // minishell utills
@@ -65,11 +66,11 @@ pid_t		forking(int **fd, int argc);
 int			**fd_create(int argc);
 void		piping(int **x, int argc);
 void		close_pipe(int **fd, int argc);
-void		child(char **argv, char **envp, int **pipe_fd, int i[2]);
+void		child(char **argv, char **envp, int **pipe_fd, t_minishell *mini);
 void		middle_child(char **argv, char **envp, int **pipe_fd, int i[2]);
 void		middle(char **argv, char **envp, int **pipe_fd, int i[2]);
 void		parent(char **argv, char **envp, int **pipe_fd, int i);
-int			pipex(int argc, char **argv, char **envp);
+int			pipex(int argc, char **argv, char **envp, t_minishell *mini);
 char		**create_pipex_commands(char **cmd, int cmd_num);
 
 #endif
