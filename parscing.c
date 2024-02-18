@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:35:25 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/02/07 19:55:04 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/02/18 17:26:16 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	amount_of_commands(char *line)
 		if ((line[i] == '|') && (between_quo(line, i) == 0))
 		{
 			is_command = 0;
-			amount++;
 		}
 		else if (!is_command)
 		{

@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:13:25 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/02/18 14:40:43 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/02/18 17:29:29 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,37 @@
 
 // pipex test
 
-// int	main(int argc, char **argv, char **envp)
-// {
-// 	int			j;
-// 	char		**x;
-// 	char		**y;
-// 	char		*inpt;
-// 	pid_t		pd;
-// 	t_minishell	mini;
+int	main(int argc, char **argv, char **envp)
+{
+	char		**x;
+	char		**y;
+	pid_t		pd;
+	t_minishell	mini;
 
-// 	(void)argc;
-// 	(void)argv;
-// 	j = 0;
-// 	while (j < 10)
-// 	{
-// 		inpt = readline("Enter text: ");
-// 		add_history(inpt);
-// 		pd = fork();
-// 		if (pd == 0)
-// 		{
-// 			x = cut_commands(inpt);
-// 			mini.number_of_commands = (amount_of_commands(inpt) + 1) / 2;
-// 			y = create_pipex_commands(x, mini.number_of_commands);
-// 			freeall(x, amount_of_commands(inpt));
-// 			pipex(mini.number_of_commands + 3, y, envp);
-// 		}
-// 		wait(NULL);
-// 		j++;
-// 	}
-// 	return (0);
-// }
+	// int			j;
+	// char		*inpt;
+	(void)argc;
+	(void)argv;
+	// j = 0;
+	// while (j < 10)
+	// {
+	// inpt = readline("Enter text: ");
+	// add_history(inpt);
+	pd = fork();
+	if (pd == 0)
+	{
+		x = cut_commands("ls | grep mini | wc");
+		mini.number_of_commands = (amount_of_commands("ls | grep mini | wc")
+				+ 1) / 2;
+		y = create_pipex_commands(x, mini.number_of_commands);
+		freeall(x, amount_of_commands("ls | grep mini | wc"));
+		pipex(mini.number_of_commands + 3, y, envp);
+	}
+	wait(NULL);
+	// j++;
+	// }
+	return (0);
+}
 
 // arg split test
 
@@ -104,29 +105,29 @@
 
 // single command
 
-int	main(int argc, char **argv, char **envp)
-{
-	int			j;
-	// char		**x;
-	// char		**y;
-	char		*inpt;
-	pid_t		pd;
-	// t_minishell	mini;
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	int			j;
+// 	// char		**x;
+// 	// char		**y;
+// 	char		*inpt;
+// 	pid_t		pd;
+// 	// t_minishell	mini;
 
-	(void)argc;
-	(void)argv;
-	j = 0;
-	while (j < 10)
-	{
-		inpt = readline("Enter text: ");
-		add_history(inpt);
-		pd = fork();
-		if (pd == 0)
-		{
-			excute_command_d(inpt, envp);
-		}
-		wait(NULL);
-		j++;
-	}
-	return (0);
-}
+// 	(void)argc;
+// 	(void)argv;
+// 	j = 0;
+// 	while (j < 10)
+// 	{
+// 		inpt = readline("Enter text: ");
+// 		add_history(inpt);
+// 		pd = fork();
+// 		if (pd == 0)
+// 		{
+// 			excute_command_d(inpt, envp);
+// 		}
+// 		wait(NULL);
+// 		j++;
+// 	}
+// 	return (0);
+// }

@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 19:52:53 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/02/09 20:18:53 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/02/18 17:26:09 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ int	asign_command(char **commands, char *line, int *pos, int amount)
 	{
 		if (pos[i[0]] != -1)
 		{
-			commands[i[1]++] = ft_substr(line, i[2], pos[i[0]] - i[2]);
-			commands[i[1]] = ft_substr(line, pos[i[0]], 1);
+			commands[i[1]] = ft_substr(line, i[2], pos[i[0]] - i[2]);
 			i[2] = i[2] + (pos[i[0]] - i[2]) + 1;
 			i[0]++;
 		}
