@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 16:43:43 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/02/18 22:21:59 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/02/19 16:08:01 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,41 @@ int	excute_command_d(char *cmd, char **envp)
 	return (-1);
 }
 
+// int	check_inp(t_minishell *mini, char **argv)
+// {
+// 	int		i;
+// 	char	**arguments;
+
+// 	i = 0;
+// 	arguments = ft_split(argv[mini->temp[0] - 1], ' ');
+// 	while (arguments[i] != NULL)
+// 	{
+// 		if (ft_strncmp(arguments[i], "<", 2) == 0 || ft_strncmp(arguments[i],
+// 				"<<", 2) == 0)
+// 		{
+// 			free_split(arguments);
+// 			return (1);
+// 		}
+// 		i++;
+// 	}
+// 	free_split(arguments);
+// 	return (0);
+// }
+
 int	open_file(t_minishell *mini, char **argv, int **pipe_fd)
 {
 	int		fd;
 	char	*file;
+	char	*temp;
 
-	if (mini->input[mini->temp[0] - 3] != -1) // wrong
+	file = get_filename(argv[mini->temp[0] - 1]);
+	if (file != NULL)
 	{
-		file = get_filename(mini, argv);
 		fd = open(file, O_RDONLY);
 		free(file);
+		temp = argv[mini->temp[0] - 1];
+		argv[mini->temp[0] - 1] = cleanup_input(argv[mini->temp[0] - 1]);
+		free(temp);
 	}
 	else
 		fd = open(argv[mini->temp[0] - 2], O_RDONLY);
@@ -58,84 +83,58 @@ int	open_file(t_minishell *mini, char **argv, int **pipe_fd)
 	return (fd);
 }
 
-char	*get_filename(t_minishell *mini, char **argv)
+char	*cleanup_input(char *cmd)
 {
-	char	**arguments;
-	char	*filename;
 	int		i;
+	int		j;
+	char	*cmd_cleaned;
 
-	arguments = ft_split(argv[mini->temp[0] - 1], ' ');
-	i = amount_of_arg(arguments);
-	while (i != 0)
+	i = 0;
+	j = 0;
+	cmd_cleaned = malloc(sizeof(char) * (ft_strlen(cmd) + 1));
+	while (cmd[j] != '\0')
 	{
-		if (ft_strncmp(arguments[i], "<", 2) == 0)
+		if (cmd[j] == '<' && between_quo(cmd, i) == 0)
 		{
-			filename = ft_strdup(arguments[i + 1]);
-			free_split(arguments);
-			return (filename);
+			j++;
+			if (cmd[j] == '<')
+				j++;
+			while (cmd[j] == ' ')
+				j++;
+			while (cmd[j] != ' ' && cmd[j] != '\0')
+				j++;
 		}
-		else if (ft_strncmp(arguments[i], "<<", 3) == 0)
+		else
+			cmd_cleaned[i++] = cmd[j++];
+	}
+	cmd_cleaned[i] = '\0';
+	return (cmd_cleaned);
+}
+
+char	*get_filename(char *cmd)
+{
+	int		i;
+	int		j;
+	char	*file_name;
+
+	i = ft_strlen(cmd);
+	j = 0;
+	while (i >= 0)
+	{
+		if (cmd[i] == '<' && between_quo(cmd, i) == 0)
 		{
-			// do here_doc
+			i++;
+			file_name = malloc(sizeof(char) * (ft_strlen(cmd) + 1));
+			while (cmd[i] == ' ')
+				i++;
+			while (cmd[i] != ' ' && cmd[i] != '\0')
+			{
+				file_name[j++] = cmd[i++];
+			}
+			file_name[j] = '\0';
+			return (file_name);
 		}
 		i--;
 	}
 	return (NULL);
-}
-
-void	cleanup_input(t_minishell *mini, char **argv)
-{
-	int		i;
-	int		j;
-	char	**arguments;
-
-	i = 0;
-	arguments = ft_split(argv[mini->temp[0] - 1], ' ');
-	j = amount_of_arg(arguments);
-	while (arguments[i] != NULL)
-	{
-		if (ft_strncmp(arguments[i], "<", 2) == 0 || ft_strncmp(arguments[i],
-				"<<", 3) == 0)
-		{
-			free(arguments[i]);
-			free(arguments[i + 1]);
-			arguments[i] = NULL;
-			arguments[i + 1] = NULL;
-			i++;
-		}
-		i++;
-	}
-	free(argv[mini->temp[0] - 1]);
-	argv[mini->temp[0] - 1] = rejoin_args(arguments, j);
-	free_split(arguments);
-}
-
-char	*rejoin_args(char **argv, int amount)
-{
-	int		i;
-	char	*args;
-	char	*args2;
-
-	i = 0;
-	args = ft_strdup("");
-	while (i < amount)
-	{
-		while (argv[i] == NULL && i < amount)
-			i++;
-		if (i >= amount)
-			return (args);
-		args2 = args;
-		if (ft_strncmp(args, "", 1) == 0)
-			args = ft_strjoin(args, argv[i]);
-		else
-		{
-			args = ft_strjoin(args, " ");
-			free(args2);
-			args2 = args;
-			args = ft_strjoin(args, argv[i]);
-		}
-		free(args2);
-		i++;
-	}
-	return (args);
 }

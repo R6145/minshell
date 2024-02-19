@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:12:56 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/02/18 18:49:57 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/02/19 16:29:02 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ typedef struct s_list2
 	char	**commands;
 	char	**envps;
 	int		number_of_commands;
-	int		input[1000];
-	int		inp_type[1000];
-	int		output[1000];
-	int		out_type[1000];
+	// int		input[1000];
+	// int		inp_type[1000];
+	// int		output[1000];
+	// int		out_type[1000];
 	int		temp[2];
 }			t_minishell;
 
@@ -49,9 +49,9 @@ int			*cut_pos(char *line);
 int			between_quo(char *line, int x);
 void		between_quo_extra(char line, int *flag, int *flag2, char s);
 int			amount_of_arg(char **cmd);
-void		check_for_ipop(t_minishell *mini, char **cmd);
-void		check_for_ipop2(t_minishell *mini, char **cmd, int i);
-void		ipop_type(t_minishell *mini, char *line, int j, int i);
+// void		check_for_ipop(t_minishell *mini, char **cmd);
+// void		check_for_ipop2(t_minishell *mini, char **cmd, int i);
+// void		ipop_type(t_minishell *mini, char *line, int j, int i);
 // freeing functions
 void		freeall(char **st, int j);
 void		free_pipe(int **fd);
@@ -67,10 +67,14 @@ int			**fd_create(int argc);
 void		piping(int **x, int argc);
 void		close_pipe(int **fd, int argc);
 void		child(char **argv, char **envp, int **pipe_fd, t_minishell *mini);
-void		middle_child(char **argv, char **envp, int **pipe_fd, int i[2]);
-void		middle(char **argv, char **envp, int **pipe_fd, int i[2]);
+void		middle_child(char **argv, char **envp, int **pipe_fd,
+				t_minishell *mini);
+void		middle(char **argv, char **envp, int **pipe_fd, t_minishell *mini);
 void		parent(char **argv, char **envp, int **pipe_fd, int i);
 int			pipex(int argc, char **argv, char **envp, t_minishell *mini);
 char		**create_pipex_commands(char **cmd, int cmd_num);
+int			open_file(t_minishell *mini, char **argv, int **pipe_fd);
+char		*get_filename(char *cmd);
+char		*cleanup_input(char *cmd);
 
 #endif

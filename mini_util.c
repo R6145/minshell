@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 20:07:04 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/02/09 20:29:20 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/02/19 14:07:28 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 void	inti(t_minishell *mini)
 {
-	int	i;
+	// int	i;
 
-	i = 0;
+	// i = 0;
 	mini->number_of_commands = -1;
-	while (i < MAX_COMMANDS)
-	{
-		mini->input[i] = -1;
-		mini->inp_type[i] = -1;
-		mini->output[i] = -1;
-		mini->out_type[i] = -1;
-		i++;
-	}
+	// while (i < MAX_COMMANDS)
+	// {
+	// 	mini->input[i] = -1;
+	// 	mini->inp_type[i] = -1;
+	// 	mini->output[i] = -1;
+	// 	mini->out_type[i] = -1;
+	// 	i++;
+	// }
 }

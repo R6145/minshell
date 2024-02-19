@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 22:24:04 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/02/18 19:38:24 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/02/19 17:14:20 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,9 @@ void	child(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
 {
 	int	fd;
 
-	fd = open(argv[mini->temp[0] - 2], O_RDONLY);
-	if (fd == -1)
-	{
-		ft_putstr_fd(strerror(errno), 2);
-		write(2, "\n", 1);
-		return (close_pipe(pipe_fd, mini->temp[1]), free_pipe(pipe_fd),
-			exit(3));
-	}
+	fd = open_file(mini, argv, pipe_fd);
 	if (dup2(fd, STDIN_FILENO) == -1 || dup2(pipe_fd[mini->temp[0] - 3][1],
-		STDOUT_FILENO) == -1)
+			STDOUT_FILENO) == -1)
 	{
 		ft_putstr_fd("Dup Error\n", 2);
 		close(fd);
@@ -38,28 +31,47 @@ void	child(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
 		return (free_pipe(pipe_fd), exit(127));
 }
 
-void	middle_child(char **argv, char **envp, int **pipe_fd, int i[2])
+void	middle_child(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
 {
-	if (dup2(pipe_fd[i[0] - 3][0], STDIN_FILENO) == -1 || dup2(pipe_fd[i[0]
-			- 2][1], STDOUT_FILENO) == -1)
+	char	*file;
+	char	*temp;
+	int		fd;
+
+	file = get_filename(argv[mini->temp[0]]);
+	// printf("%d\n",mini->temp[0]);
+	if (file != NULL)
+	{
+		fd = open(file, O_RDONLY);
+		free(file);
+		temp = argv[mini->temp[0] - 1];
+		argv[mini->temp[0] - 1] = cleanup_input(argv[mini->temp[0] - 1]);
+		free(temp);
+		dup2(fd, STDIN_FILENO);
+	}
+	else
+		dup2(pipe_fd[mini->temp[0] - 3][0], STDIN_FILENO);
+	if (dup2(pipe_fd[mini->temp[0] - 2][1], STDOUT_FILENO) == -1)
 	{
 		ft_putstr_fd("Dup Error\n", 2);
-		return (close_pipe(pipe_fd, i[1]), free_pipe(pipe_fd), exit(4));
+		return (close_pipe(pipe_fd, mini->temp[1]), free_pipe(pipe_fd),
+			exit(4));
 	}
-	close_pipe(pipe_fd, i[1]);
-	if (excute_command(argv, envp, i[0]) == -1)
+	close_pipe(pipe_fd, mini->temp[1]);
+	if (file != NULL)
+		close(fd);
+	if (excute_command(argv, envp, mini->temp[0]) == -1)
 		return (free_pipe(pipe_fd), exit(127));
 }
 
-void	middle(char **argv, char **envp, int **pipe_fd, int i[2])
+void	middle(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
 {
 	pid_t	pid;
 
-	pid = forking(pipe_fd, i[1]);
+	pid = forking(pipe_fd, mini->temp[1]);
 	if (pid == 0)
 	{
 		wait(NULL);
-		middle_child(argv, envp, pipe_fd, i);
+		middle_child(argv, envp, pipe_fd, mini);
 	}
 }
 
@@ -75,7 +87,7 @@ void	parent(char **argv, char **envp, int **pipe_fd, int i)
 		return (close_pipe(pipe_fd, i + 2), free_pipe(pipe_fd), exit(1));
 	}
 	if (dup2(fd, STDOUT_FILENO) == -1 || dup2(pipe_fd[i - 3][0],
-		STDIN_FILENO) == -1)
+			STDIN_FILENO) == -1)
 	{
 		ft_putstr_fd("Dup Error\n", 2);
 		close(fd);
@@ -100,7 +112,7 @@ int	pipex(int argc, char **argv, char **envp, t_minishell *mini)
 		child(argv, envp, fd, mini);
 	while (mini->temp[0] < argc - 2)
 	{
-		middle(argv, envp, fd, mini->temp);
+		middle(argv, envp, fd, mini);
 		mini->temp[0]++;
 	}
 	parent(argv, envp, fd, argc - 2);
