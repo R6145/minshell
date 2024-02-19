@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 22:24:04 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/02/19 17:14:20 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/02/19 21:41:20 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,12 @@ void	middle_child(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
 	int		fd;
 
 	file = get_filename(argv[mini->temp[0]]);
-	// printf("%d\n",mini->temp[0]);
 	if (file != NULL)
 	{
 		fd = open(file, O_RDONLY);
 		free(file);
-		temp = argv[mini->temp[0] - 1];
-		argv[mini->temp[0] - 1] = cleanup_input(argv[mini->temp[0] - 1]);
+		temp = argv[mini->temp[0]];
+		argv[mini->temp[0]] = cleanup_input(argv[mini->temp[0] - 1]);
 		free(temp);
 		dup2(fd, STDIN_FILENO);
 	}
