@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 16:43:43 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/02/19 16:08:01 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/02/20 17:50:20 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,27 +34,6 @@ int	excute_command_d(char *cmd, char **envp)
 	}
 	return (-1);
 }
-
-// int	check_inp(t_minishell *mini, char **argv)
-// {
-// 	int		i;
-// 	char	**arguments;
-
-// 	i = 0;
-// 	arguments = ft_split(argv[mini->temp[0] - 1], ' ');
-// 	while (arguments[i] != NULL)
-// 	{
-// 		if (ft_strncmp(arguments[i], "<", 2) == 0 || ft_strncmp(arguments[i],
-// 				"<<", 2) == 0)
-// 		{
-// 			free_split(arguments);
-// 			return (1);
-// 		}
-// 		i++;
-// 	}
-// 	free_split(arguments);
-// 	return (0);
-// }
 
 int	open_file(t_minishell *mini, char **argv, int **pipe_fd)
 {
@@ -137,4 +116,100 @@ char	*get_filename(char *cmd)
 		i--;
 	}
 	return (NULL);
+}
+
+char	*cleanup_output(char *cmd)
+{
+	int		i;
+	int		j;
+	char	*cmd_cleaned;
+
+	i = 0;
+	j = 0;
+	cmd_cleaned = malloc(sizeof(char) * (ft_strlen(cmd) + 1));
+	while (cmd[j] != '\0')
+	{
+		if (cmd[j] == '>' && between_quo(cmd, i) == 0)
+		{
+			j++;
+			if (cmd[j] == '>')
+				j++;
+			while (cmd[j] == ' ')
+				j++;
+			while (cmd[j] != ' ' && cmd[j] != '\0')
+				j++;
+		}
+		else
+			cmd_cleaned[i++] = cmd[j++];
+	}
+	cmd_cleaned[i] = '\0';
+	return (cmd_cleaned);
+}
+
+char	*get_filename_out(char *cmd)
+{
+	int		i;
+	int		j;
+	char	*file_name;
+
+	i = ft_strlen(cmd);
+	j = 0;
+	while (i >= 0)
+	{
+		if (cmd[i] == '>' && between_quo(cmd, i) == 0)
+		{
+			i++;
+			file_name = malloc(sizeof(char) * (ft_strlen(cmd) + 1));
+			while (cmd[i] == ' ')
+				i++;
+			while (cmd[i] != ' ' && cmd[i] != '\0')
+			{
+				file_name[j++] = cmd[i++];
+			}
+			file_name[j] = '\0';
+			return (file_name);
+		}
+		i--;
+	}
+	return (NULL);
+}
+
+int	check_out_type(char *cmd)
+{
+	int		i;
+
+	i = ft_strlen(cmd);
+	while (i >= 0)
+	{
+		if (cmd[i] == '>' && between_quo(cmd, i) == 0)
+		{
+			i--;
+			if (cmd[i] == '>')
+				return (2);
+			else
+				return (1);
+		}
+		i--;
+	}
+	return (0);
+}
+
+int	check_in_type(char *cmd)
+{
+	int		i;
+
+	i = ft_strlen(cmd);
+	while (i >= 0)
+	{
+		if (cmd[i] == '>' && between_quo(cmd, i) == 0)
+		{
+			i--;
+			if (cmd[i] == '>')
+				return (2);
+			else
+				return (1);
+		}
+		i--;
+	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:12:56 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/02/19 16:29:02 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/02/20 17:50:27 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,14 @@ void		child(char **argv, char **envp, int **pipe_fd, t_minishell *mini);
 void		middle_child(char **argv, char **envp, int **pipe_fd,
 				t_minishell *mini);
 void		middle(char **argv, char **envp, int **pipe_fd, t_minishell *mini);
-void		parent(char **argv, char **envp, int **pipe_fd, int i);
+void		parent(char **argv, char **envp, int **pipe_fd, t_minishell *mini);
 int			pipex(int argc, char **argv, char **envp, t_minishell *mini);
 char		**create_pipex_commands(char **cmd, int cmd_num);
 int			open_file(t_minishell *mini, char **argv, int **pipe_fd);
 char		*get_filename(char *cmd);
 char		*cleanup_input(char *cmd);
-
+char		*cleanup_output(char *cmd);
+char		*get_filename_out(char *cmd);
+int			check_out_type(char *cmd);
+int			check_in_type(char *cmd);
 #endif
