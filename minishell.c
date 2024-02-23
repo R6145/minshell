@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:13:25 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/02/19 16:06:59 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/02/23 17:05:41 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,3 +131,8 @@ int	main(int argc, char **argv, char **envp)
 // 	}
 // 	return (0);
 // }
+
+//cleanin up all malloc when error in pipes
+//error when wrong arg give dumby ex: >lol >gg lsa >fs (lol and gg are created)
+//do error handling
+//here doc not done

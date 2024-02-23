@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:12:56 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/02/20 17:50:27 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/02/23 17:04:38 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,7 @@ char		*cleanup_output(char *cmd);
 char		*get_filename_out(char *cmd);
 int			check_out_type(char *cmd);
 int			check_in_type(char *cmd);
+void		create_dumby_files(char *cmd);
+int			create_file_dumb(char *cmd_name, char *cmd, int i);
+
 #endif

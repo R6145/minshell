@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 22:24:04 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/02/20 17:47:55 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/02/23 15:09:27 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	child(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
 	file = get_filename_out(argv[mini->temp[0] - 1]);
 	if (file != NULL)
 	{
+		create_dumby_files(argv[mini->temp[0] - 1]);
 		if (check_out_type(argv[mini->temp[0] - 1]) == 2)
 			fd2 = open(file, O_CREAT | O_RDWR | O_APPEND, 0644);
 		else
@@ -74,6 +75,7 @@ void	middle_child(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
 	file = get_filename_out(argv[mini->temp[0]]);
 	if (file != NULL)
 	{
+		create_dumby_files(argv[mini->temp[0]]);
 		if (check_out_type(argv[mini->temp[0]]) == 2)
 			fd2 = open(file, O_CREAT | O_RDWR | O_APPEND, 0644);
 		else
@@ -134,6 +136,7 @@ void	parent(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
 	file = get_filename_out(argv[mini->temp[0]]);
 	if (file != NULL)
 	{
+		create_dumby_files(argv[mini->temp[0]]);
 		if (check_out_type(argv[mini->temp[0]]) == 2)
 			fd = open(file, O_CREAT | O_RDWR | O_APPEND, 0644);
 		else
