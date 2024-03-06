@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 16:43:43 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/02/23 17:04:26 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/06 19:46:35 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	open_file(t_minishell *mini, char **argv, int **pipe_fd)
 		ft_putstr_fd(strerror(errno), 2);
 		write(2, "\n", 1);
 		close_pipe(pipe_fd, mini->temp[1]);
+		free_mini(mini);
 		return (free_pipe(pipe_fd), exit(3), 0);
 	}
 	return (fd);
@@ -214,7 +215,7 @@ int	check_in_type(char *cmd)
 	return (0);
 }
 
-void	create_dumby_files(char *cmd)
+void	create_dumby_files(char *cmd, int **pipe_fd, t_minishell *mini)
 {
 	int		i;
 	int		j;
@@ -235,6 +236,8 @@ void	create_dumby_files(char *cmd)
 				file_name[j++] = cmd[x++];
 			file_name[j] = '\0';
 			i = create_file_dumb(file_name, cmd, i);
+			if (i == -1)
+				free_error_fd(pipe_fd, mini);
 			free(file_name);
 		}
 		i--;
@@ -252,6 +255,10 @@ int	create_file_dumb(char *cmd_name, char *cmd, int i)
 	}
 	else
 		fd = open(cmd_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	if (fd == -1)
+	{
+		return (-1);
+	}
 	close(fd);
 	return (i);
 }

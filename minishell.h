@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:12:56 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/02/23 17:04:38 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/06 21:02:16 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct s_list2
 	// int		inp_type[1000];
 	// int		output[1000];
 	// int		out_type[1000];
-	int		temp[2];
+	int		temp[3];
 }			t_minishell;
 
 // minishell utills
@@ -80,7 +80,13 @@ char		*cleanup_output(char *cmd);
 char		*get_filename_out(char *cmd);
 int			check_out_type(char *cmd);
 int			check_in_type(char *cmd);
-void		create_dumby_files(char *cmd);
+void		create_dumby_files(char *cmd, int **pipe_fd, t_minishell *mini);
 int			create_file_dumb(char *cmd_name, char *cmd, int i);
+void		create_dumbf_in(int i, char **argv, int **pipe_fd,
+				t_minishell *mini);
+void		create_dumbf_out(char **argv, int **pipe_fd, t_minishell *mini);
+void		free_mini(t_minishell *mini);
+void		free_error_fd(int **pipe_fd, t_minishell *mini);
+void		free_error_dup(int **pipe_fd, t_minishell *mini, int fd);
 
 #endif
