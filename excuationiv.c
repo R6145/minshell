@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 16:43:43 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/06 19:46:35 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/11 14:26:20 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,11 @@ int	open_file(t_minishell *mini, char **argv, int **pipe_fd)
 		free(temp);
 	}
 	else
-		fd = open(argv[mini->temp[0] - 2], O_RDONLY);
-	if (fd == -1)
 	{
-		ft_putstr_fd(strerror(errno), 2);
-		write(2, "\n", 1);
-		close_pipe(pipe_fd, mini->temp[1]);
-		free_mini(mini);
-		return (free_pipe(pipe_fd), exit(3), 0);
+		fd = open(argv[mini->temp[0] - 2], O_RDONLY);
 	}
+	if (fd == -1)
+		free_error_fd(pipe_fd, mini);
 	return (fd);
 }
 
@@ -202,10 +198,10 @@ int	check_in_type(char *cmd)
 	i = ft_strlen(cmd);
 	while (i >= 0)
 	{
-		if (cmd[i] == '>' && between_quo(cmd, i) == 0)
+		if (cmd[i] == '<' && between_quo(cmd, i) == 0)
 		{
 			i--;
-			if (cmd[i] == '>')
+			if (cmd[i] == '<')
 				return (2);
 			else
 				return (1);
@@ -262,3 +258,35 @@ int	create_file_dumb(char *cmd_name, char *cmd, int i)
 	close(fd);
 	return (i);
 }
+
+char	**here_maker(char *cmd, t_minishell *mini, int **pipe_fd)
+{
+	int		i;
+	int		j;
+	char	**cmd_cleaned;
+
+	i = 0;
+	j = 0;
+	cmd_cleaned = malloc(sizeof(char *) * (ft_strlen(cmd) + 1));
+	while (cmd[j] != '\0')
+	{
+		if (cmd[j] == '<' && between_quo(cmd, i) == 0)
+		{
+			j++;
+			if (cmd[j] == '<')
+				j++;
+			while (cmd[j] == ' ')
+				j++;
+			while (cmd[j] != ' ' && cmd[j] != '\0')
+				j++;
+		}
+		else
+			cmd_cleaned[i++] = cmd[j++];
+	}
+	cmd_cleaned[i] = NULL;
+	return (cmd_cleaned);
+}
+
+// int	here_doc(void)
+// {
+// }

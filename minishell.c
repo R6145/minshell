@@ -6,13 +6,20 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:13:25 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/02/23 17:05:41 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/11 12:15:03 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // pipex test
+
+// int	error_handling(t_minishell *mini)
+// {
+// 	if (mini->number_of_commands % 2 = 0)
+	
+// 		return (1);
+// }
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -132,7 +139,7 @@ int	main(int argc, char **argv, char **envp)
 // 	return (0);
 // }
 
-//cleanin up all malloc when error in pipes
-//error when wrong arg give dumby ex: >lol >gg lsa >fs (lol and gg are created)
-//do error handling
-//here doc not done
+// cleanin up all malloc when error in pipes
+// error when wrong arg give dumby ex: >lol >gg lsa >fs (lol and gg are created)
+// do error handling
+// here doc not done
