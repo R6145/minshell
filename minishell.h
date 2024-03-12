@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:12:56 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/10 21:13:42 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/12 15:59:56 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,8 @@ void		create_dumbf_out(char **argv, int **pipe_fd, t_minishell *mini);
 void		free_mini(t_minishell *mini);
 void		free_error_fd(int **pipe_fd, t_minishell *mini);
 void		free_error_dup(int **pipe_fd, t_minishell *mini, int fd);
+char		*get_filename_pos(char *cmd, int i);
+int			here_doc(char *cmd, t_minishell *mini, int **pipe_fd);
+char		**here_maker(char *cmd);
 
 #endif

@@ -105,9 +105,64 @@ void	create_dumby_files(char *cmd)
 	}
 }
 
+char	*get_filename_pos(char *cmd, int i)
+{
+	int		j;
+	char	*file_name;
+
+	j = 0;
+	while (i >= 0)
+	{
+		if (cmd[i] == '<' && between_quo(cmd, i) == 0)
+		{
+			i++;
+			file_name = malloc(sizeof(char) * (ft_strlen(cmd) + 1));
+			while (cmd[i] == ' ')
+				i++;
+			while (cmd[i] != ' ' && cmd[i] != '\0')
+			{
+				file_name[j++] = cmd[i++];
+			}
+			file_name[j] = '\0';
+			return (file_name);
+		}
+		i--;
+	}
+	return (NULL);
+}
+
+char	**here_maker(char *cmd)
+{
+	int		i;
+	int		j;
+	char	**names;
+
+	i = 0;
+	j = ft_strlen(cmd) - 1;
+	names = malloc(sizeof(char *) * (j + 2));
+	while (j >= 0)
+	{
+		if (cmd[j] == '<' && between_quo(cmd, j) == 0)
+		{
+			j--;
+			if (cmd[j] == '<')
+				names[i++] = get_filename_pos(cmd, j + 1);
+		}
+		j--;
+	}
+	names[i] = NULL;
+	return (names);
+}
+
 int	main(void)
 {
-	char *here = ">> here >> ggg > why? ls";
-	create_dumby_files(here);
+	char *here = "<< here ls <<lol << ggg";
+	char **x = here_maker(here);
+	int i = 0;
+	while (x[i] != NULL)
+	{
+		printf("%s\n", x[i]);
+		i++;
+	}
 	return (0);
 }

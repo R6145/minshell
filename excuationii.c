@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 18:16:44 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/02/05 22:22:03 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/12 15:01:07 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	**fd_create(int argc)
 	return (x);
 }
 
-void	piping(int **x, int argc)
+void	 piping(int **x, int argc)
 {
 	int	i;
 
