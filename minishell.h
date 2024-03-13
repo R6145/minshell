@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:12:56 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/12 15:59:56 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/13 20:20:08 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,11 @@ void		free_error_dup(int **pipe_fd, t_minishell *mini, int fd);
 char		*get_filename_pos(char *cmd, int i);
 int			here_doc(char *cmd, t_minishell *mini, int **pipe_fd);
 char		**here_maker(char *cmd);
+int			here_doc_extra(char *cmd, int fd[2], t_minishell *mini,
+				int **pipe_fd);
+pid_t		here_doc_f(int fd[2], t_minishell *mini, int **pipe_fd);
+int			check_here_doc(char **cmd, int j);
+int			input_code(char *file, char *argv, int **pipe_fd,
+				t_minishell *mini);
 
 #endif

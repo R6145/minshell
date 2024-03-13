@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 22:24:04 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/12 16:30:07 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/13 20:38:33 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,12 @@ void	child(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
 void	middle_child(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
 {
 	char	*file;
-	char	*temp;
 	int		fd;
 
 	file = get_filename(argv[mini->temp[0]]);
 	if (file != NULL)
 	{
-		fd = open(file, O_RDONLY);
-		temp = argv[mini->temp[0]];
-		argv[mini->temp[0]] = cleanup_input(argv[mini->temp[0]]);
-		free(temp);
+		fd = input_code(file, argv[mini->temp[0]], pipe_fd, mini);
 		if (fd == -1)
 			return (free(file), free_error_fd(pipe_fd, mini));
 		mini->temp[2] = dup2(fd, STDIN_FILENO);
@@ -65,6 +61,8 @@ void	middle(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
 {
 	pid_t	pid;
 
+	if (check_here_doc(argv, mini->temp[0] - 1) == 1)
+		wait(NULL);
 	pid = forking(pipe_fd, mini->temp[1]);
 	if (pid == 0)
 	{
@@ -76,16 +74,12 @@ void	middle(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
 void	parent(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
 {
 	char	*file;
-	char	*temp;
 	int		fd2;
 
 	file = get_filename(argv[mini->temp[0]]);
 	if (file != NULL)
 	{
-		fd2 = open(file, O_RDONLY);
-		temp = argv[mini->temp[0]];
-		argv[mini->temp[0]] = cleanup_input(argv[mini->temp[0]]);
-		free(temp);
+		fd2 = input_code(file, argv[mini->temp[0]], pipe_fd, mini);
 		if (fd2 == -1)
 			return (free(file), free_error_fd(pipe_fd, mini));
 		mini->temp[2] = dup2(fd2, STDIN_FILENO);
@@ -118,6 +112,8 @@ int	pipex(int argc, char **argv, char **envp, t_minishell *mini)
 		middle(argv, envp, fd, mini);
 		mini->temp[0]++;
 	}
+	if (check_here_doc(argv, mini->temp[1] - 3) == 1)
+		wait(NULL);
 	parent(argv, envp, fd, mini);
 	return (0);
 }
@@ -199,3 +195,49 @@ void	free_error_dup(int **pipe_fd, t_minishell *mini, int fd)
 	close(fd);
 	return (close_pipe(pipe_fd, mini->temp[1]), free_pipe(pipe_fd), exit(4));
 }
+
+int	input_code(char *file, char *argv, int **pipe_fd, t_minishell *mini)
+{
+	int		fd;
+	char	*temp;
+
+	fd = 0;
+	if (check_in_type(argv) == 1)
+	{
+		fd = open(file, O_RDONLY);
+		temp = argv;
+		argv = cleanup_input(argv);
+		free(temp);
+	}
+	else
+	{
+		fd = here_doc(argv, mini, pipe_fd);
+		temp = argv;
+		argv = cleanup_input(argv);
+		free(temp);
+	}
+	return (fd);
+}
+
+// void	single_command(char *argv, char **envp, t_minishell *mini)
+// {
+// 	char	*file;
+// 	int		fd2;
+
+// 	file = get_filename(argv[mini->temp[0]]);
+// 	if (file != NULL)
+// 	{
+// 		fd2 = input_code(file, argv[mini->temp[0]], pipe_fd, mini);
+// 		if (fd2 == -1)
+// 			return (free(file), free_error_fd(pipe_fd, mini));
+// 		mini->temp[2] = dup2(fd2, STDIN_FILENO);
+// 		close(fd2);
+// 		free(file);
+// 	}
+// 	if (mini->temp[2] == -1)
+// 		free_error_dup(pipe_fd, mini, fd2);
+// 	create_dumbf_out(argv, pipe_fd, mini);
+// 	close_pipe(pipe_fd, mini->temp[1]);
+// 	if (excute_command(argv, envp, mini->temp[1] - 2) == -1)
+// 		return (free_mini(mini), free_pipe(pipe_fd), exit(127));
+// }

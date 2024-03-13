@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 16:43:43 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/12 17:17:42 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/13 19:45:52 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,27 +311,45 @@ char	**here_maker(char *cmd)
 			if (cmd[j] == '<')
 				names[i++] = get_filename_pos(cmd, j + 1);
 		}
+		j--;
 	}
-	j--;
 	names[i] = NULL;
 	return (names);
 }
 
-int	here_doc(char *cmd, t_minishell *mini, int **pipe_fd)
+int	here_doc_extra(char *cmd, int fd[2], t_minishell *mini, int **pipe_fd)
 {
-	pid_t	pid;
-	int		fd[2];
 	int		i;
 	char	**names;
 
 	i = 0;
-	if (pipe(fd) == -1)
+	close(fd[0]);
+	names = here_maker(cmd);
+	i = amount_of_arg(names) - 1;
+	while (i >= 0)
 	{
-		ft_putstr_fd("Pipe failed\n", 2);
-		free_mini(mini);
-		return (close_pipe(pipe_fd, mini->temp[1]), free_pipe(pipe_fd), exit(5),
-			0);
+		cmd = readline(">");
+		if (ft_strncmp(cmd, names[i], ft_strlen(names[i])) == 0)
+		{
+			if (i == 0)
+				break ;
+			i--;
+		}
+		write(fd[1], cmd, ft_strlen(cmd));
+		write(fd[1], "\n", 1);
 	}
+	close(fd[1]);
+	free_split(names);
+	free_mini(mini);
+	close_pipe(pipe_fd, mini->temp[1]);
+	free_pipe(pipe_fd);
+	exit(0);
+}
+
+pid_t	here_doc_f(int fd[2], t_minishell *mini, int **pipe_fd)
+{
+	pid_t	pid;
+
 	pid = fork();
 	if (pid == -1)
 	{
@@ -342,32 +360,37 @@ int	here_doc(char *cmd, t_minishell *mini, int **pipe_fd)
 		return (close_pipe(pipe_fd, mini->temp[1]), free_pipe(pipe_fd), exit(5),
 			0);
 	}
-	if (pid == 0)
+	return (pid);
+}
+
+int	here_doc(char *cmd, t_minishell *mini, int **pipe_fd)
+{
+	pid_t	pid;
+	int		fd[2];
+
+	if (pipe(fd) == -1)
 	{
-		close(fd[0]);
-		names = here_maker(cmd);
-		i = amount_of_arg(names) - 1;
-		while (i >= 0)
-		{
-			write(2, "here\n", 5);
-			cmd = readline(">");
-			if (ft_strncmp(cmd, names[i], ft_strlen(names[i])) == 0)
-			{
-				if (i == 0)
-					break ;
-				exit(12);
-				i--;
-			}
-			write(fd[1], cmd, ft_strlen(cmd));
-		}
-		close(fd[1]);
-		free_split(names);
+		ft_putstr_fd("Pipe failed\n", 2);
 		free_mini(mini);
-		close_pipe(pipe_fd, mini->temp[1]);
-		free_pipe(pipe_fd);
-		exit(0);
+		return (close_pipe(pipe_fd, mini->temp[1]), free_pipe(pipe_fd), exit(5),
+			0);
 	}
+	wait(NULL);
+	pid = here_doc_f(fd, mini, pipe_fd);
+	if (pid == 0)
+		here_doc_extra(cmd, fd, mini, pipe_fd);
 	wait(NULL);
 	close(fd[1]);
 	return (fd[0]);
+}
+
+int	check_here_doc(char **cmd, int j)
+{
+	while (j >= 2)
+	{
+		if (check_in_type(cmd[j]) == 2)
+			return (1);
+		j--;
+	}
+	return (0);
 }
