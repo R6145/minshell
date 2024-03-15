@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 18:16:44 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/12 15:01:07 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/15 18:26:01 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	**fd_create(int argc)
 	return (x);
 }
 
-void	 piping(int **x, int argc)
+void	piping(int **x, int argc)
 {
 	int	i;
 
@@ -71,6 +71,8 @@ void	close_pipe(int **fd, int argc)
 	int	i;
 
 	i = 0;
+	if (fd == NULL)
+		return ;
 	while (i < argc - 4)
 	{
 		close(fd[i][0]);
@@ -84,6 +86,8 @@ void	free_pipe(int **fd)
 	int	i;
 
 	i = 0;
+	if (fd == NULL)
+		return ;
 	while (fd[i] != NULL)
 	{
 		free(fd[i]);

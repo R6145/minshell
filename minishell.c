@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:13:25 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/13 18:44:37 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/15 19:50:26 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 // int	error_handling(t_minishell *mini)
 // {
 // 	if (mini->number_of_commands % 2 = 0)
-	
+
 // 		return (1);
 // }
 
@@ -42,11 +42,19 @@ int	main(int argc, char **argv, char **envp)
 		{
 			x = cut_commands(inpt);
 			mini.number_of_commands = amount_of_commands(inpt);
-			mini.commands = create_pipex_commands(x, mini.number_of_commands);
-			freeall(x, mini.number_of_commands);
-			free(inpt);
-			// printf("%d\n", mini.number_of_commands);
-			pipex(mini.number_of_commands + 3, mini.commands, envp, &mini);
+			if (mini.number_of_commands == 1)
+			{
+				single_command(inpt, envp, &mini);
+			}
+			else
+			{
+				mini.commands = create_pipex_commands(x,
+						mini.number_of_commands);
+				freeall(x, mini.number_of_commands);
+				free(inpt);
+				// printf("%d\n", mini.number_of_commands);
+				pipex(mini.number_of_commands + 3, mini.commands, envp, &mini);
+			}
 		}
 		free(inpt);
 		wait(NULL);

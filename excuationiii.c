@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 22:24:04 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/13 20:38:33 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/15 21:17:44 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,14 @@ void	middle_child(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
 	int		fd;
 
 	file = get_filename(argv[mini->temp[0]]);
+	fd = 0; //remove
 	if (file != NULL)
 	{
-		fd = input_code(file, argv[mini->temp[0]], pipe_fd, mini);
-		if (fd == -1)
-			return (free(file), free_error_fd(pipe_fd, mini));
-		mini->temp[2] = dup2(fd, STDIN_FILENO);
-		close(fd);
+		// fd = input_code(file, argv[mini->temp[0]], pipe_fd, mini);
+		// if (fd == -1)
+		// 	return (free(file), free_error_fd(pipe_fd, mini));
+		// mini->temp[2] = dup2(fd, STDIN_FILENO);
+		// close(fd);
 		free(file);
 	}
 	else
@@ -74,23 +75,23 @@ void	middle(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
 void	parent(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
 {
 	char	*file;
-	int		fd2;
 
 	file = get_filename(argv[mini->temp[0]]);
 	if (file != NULL)
 	{
-		fd2 = input_code(file, argv[mini->temp[0]], pipe_fd, mini);
-		if (fd2 == -1)
+		argv[mini->temp[0]] = input_code(file, argv[mini->temp[0]], pipe_fd,
+				mini);
+		if (mini->temp[3] == -1)
 			return (free(file), free_error_fd(pipe_fd, mini));
-		mini->temp[2] = dup2(fd2, STDIN_FILENO);
-		close(fd2);
+		mini->temp[2] = dup2(mini->temp[3], STDIN_FILENO);
+		close(mini->temp[3]);
 		free(file);
 	}
 	else
 		mini->temp[2] = dup2(pipe_fd[mini->temp[1] - 5][0], STDIN_FILENO);
 	if (mini->temp[2] == -1)
-		free_error_dup(pipe_fd, mini, fd2);
-	create_dumbf_out(argv, pipe_fd, mini);
+		free_error_dup(pipe_fd, mini, mini->temp[3]);
+	// create_dumbf_out(argv, pipe_fd, mini);
 	close_pipe(pipe_fd, mini->temp[1]);
 	if (excute_command(argv, envp, mini->temp[1] - 2) == -1)
 		return (free_mini(mini), free_pipe(pipe_fd), exit(127));
@@ -177,7 +178,8 @@ void	create_dumbf_out(char **argv, int **pipe_fd, t_minishell *mini)
 
 void	free_mini(t_minishell *mini)
 {
-	free_split(mini->commands);
+	if (mini->commands != NULL)
+		free_split(mini->commands);
 }
 
 void	free_error_fd(int **pipe_fd, t_minishell *mini)
@@ -196,7 +198,7 @@ void	free_error_dup(int **pipe_fd, t_minishell *mini, int fd)
 	return (close_pipe(pipe_fd, mini->temp[1]), free_pipe(pipe_fd), exit(4));
 }
 
-int	input_code(char *file, char *argv, int **pipe_fd, t_minishell *mini)
+char	*input_code(char *file, char *argv, int **pipe_fd, t_minishell *mini)
 {
 	int		fd;
 	char	*temp;
@@ -216,28 +218,85 @@ int	input_code(char *file, char *argv, int **pipe_fd, t_minishell *mini)
 		argv = cleanup_input(argv);
 		free(temp);
 	}
-	return (fd);
+	mini->temp[2] = fd;
+	return (argv);
 }
 
-// void	single_command(char *argv, char **envp, t_minishell *mini)
-// {
-// 	char	*file;
-// 	int		fd2;
+char	*input_code_s(char *file, char *argv, int **pipe_fd, t_minishell *mini)
+{
+	int		fd;
+	char	*temp;
 
-// 	file = get_filename(argv[mini->temp[0]]);
-// 	if (file != NULL)
-// 	{
-// 		fd2 = input_code(file, argv[mini->temp[0]], pipe_fd, mini);
-// 		if (fd2 == -1)
-// 			return (free(file), free_error_fd(pipe_fd, mini));
-// 		mini->temp[2] = dup2(fd2, STDIN_FILENO);
-// 		close(fd2);
-// 		free(file);
-// 	}
-// 	if (mini->temp[2] == -1)
-// 		free_error_dup(pipe_fd, mini, fd2);
-// 	create_dumbf_out(argv, pipe_fd, mini);
-// 	close_pipe(pipe_fd, mini->temp[1]);
-// 	if (excute_command(argv, envp, mini->temp[1] - 2) == -1)
-// 		return (free_mini(mini), free_pipe(pipe_fd), exit(127));
-// }
+	fd = 0;
+	if (check_in_type(argv) == 1)
+	{
+		fd = open(file, O_RDONLY);
+		temp = argv;
+		argv = cleanup_input(argv);
+		free(temp);
+	}
+	else
+	{
+		fd = here_doc(argv, mini, pipe_fd);
+		temp = argv;
+		argv = cleanup_input(argv);
+		free(temp);
+	}
+	mini->temp[0] = fd;
+	return (argv);
+}
+
+char	*create_dumbf_outs(char *argv, t_minishell *mini)
+{
+	char	*file;
+	char	*temp;
+	int		fd;
+
+	file = get_filename_out(argv);
+	if (file != NULL)
+	{
+		create_dumby_files(argv, NULL, mini);
+		if (check_out_type(argv) == 2)
+			fd = open(file, O_CREAT | O_RDWR | O_APPEND, 0644);
+		else
+			fd = open(file, O_CREAT | O_RDWR | O_TRUNC, 0644);
+		temp = argv;
+		argv = cleanup_output(argv);
+		free(temp);
+		free(file);
+	}
+	else
+		fd = open("/dev/tty", O_CREAT | O_RDWR | O_TRUNC, 0644);
+	if (fd == -1)
+		free_error_fd(NULL, mini);
+	dup2(fd, STDOUT_FILENO);
+	if (dup2(fd, STDOUT_FILENO) == -1)
+		free_error_dup(NULL, mini, fd);
+	return (argv);
+}
+
+void	single_command(char *argv, char **envp, t_minishell *mini)
+{
+	char	*file;
+	char	*temp;
+
+	temp = argv;
+	file = get_filename(argv);
+	if (file != NULL)
+	{
+		temp = input_code_s(file, argv, NULL, mini);
+		if (mini->temp[0] == -1)
+			return (free(file), free_error_fd(NULL, mini), exit(14));
+		free(file);
+	}
+	else
+		mini->temp[0] = open("/dev/tty", O_RDONLY);
+	mini->temp[2] = dup2(mini->temp[0], STDIN_FILENO);
+	close(mini->temp[0]);
+	temp = create_dumbf_outs(temp, mini);
+	// mini->temp[0] = open("/dev/tty", O_CREAT | O_RDWR | O_TRUNC, 0644);
+	// mini->temp[2] = dup2(mini->temp[0], STDOUT_FILENO);
+	// close(mini->temp[0]);
+	if (excute_command_d(temp, envp) == -1)
+		return (free(temp), free_mini(mini), exit(127));
+}
