@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 22:24:04 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/15 21:17:44 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/20 13:14:12 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,23 +35,24 @@ void	child(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
 void	middle_child(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
 {
 	char	*file;
-	int		fd;
+	int		temp;
 
 	file = get_filename(argv[mini->temp[0]]);
-	fd = 0; //remove
 	if (file != NULL)
 	{
-		// fd = input_code(file, argv[mini->temp[0]], pipe_fd, mini);
-		// if (fd == -1)
-		// 	return (free(file), free_error_fd(pipe_fd, mini));
-		// mini->temp[2] = dup2(fd, STDIN_FILENO);
-		// close(fd);
+		argv[mini->temp[0]] = input_code(file, argv[mini->temp[0]], pipe_fd,
+			mini);
+		if (mini->temp[2] == -1)
+			return (free(file), free_error_fd(pipe_fd, mini));
+		temp = mini->temp[2];
+		mini->temp[2] = dup2(mini->temp[2], STDIN_FILENO);
+		close(temp);
 		free(file);
 	}
 	else
 		mini->temp[2] = dup2(pipe_fd[mini->temp[0] - 3][0], STDIN_FILENO);
 	if (mini->temp[2] == -1)
-		free_error_dup(pipe_fd, mini, fd);
+		free_error_dup(pipe_fd, mini, mini->temp[2]);
 	create_dumbf_in(0, argv, pipe_fd, mini);
 	close_pipe(pipe_fd, mini->temp[1]);
 	if (excute_command(argv, envp, mini->temp[0]) == -1)
@@ -75,23 +76,25 @@ void	middle(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
 void	parent(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
 {
 	char	*file;
+	int		temp;
 
 	file = get_filename(argv[mini->temp[0]]);
 	if (file != NULL)
 	{
 		argv[mini->temp[0]] = input_code(file, argv[mini->temp[0]], pipe_fd,
-				mini);
-		if (mini->temp[3] == -1)
+			mini);
+		if (mini->temp[2] == -1)
 			return (free(file), free_error_fd(pipe_fd, mini));
-		mini->temp[2] = dup2(mini->temp[3], STDIN_FILENO);
-		close(mini->temp[3]);
+		temp = mini->temp[2];
+		mini->temp[2] = dup2(mini->temp[2], STDIN_FILENO);
+		close(temp);
 		free(file);
 	}
 	else
 		mini->temp[2] = dup2(pipe_fd[mini->temp[1] - 5][0], STDIN_FILENO);
 	if (mini->temp[2] == -1)
-		free_error_dup(pipe_fd, mini, mini->temp[3]);
-	// create_dumbf_out(argv, pipe_fd, mini);
+		free_error_dup(pipe_fd, mini, mini->temp[2]);
+	create_dumbf_out(argv, pipe_fd, mini);
 	close_pipe(pipe_fd, mini->temp[1]);
 	if (excute_command(argv, envp, mini->temp[1] - 2) == -1)
 		return (free_mini(mini), free_pipe(pipe_fd), exit(127));
@@ -174,6 +177,7 @@ void	create_dumbf_out(char **argv, int **pipe_fd, t_minishell *mini)
 	dup2(fd, STDOUT_FILENO);
 	if (dup2(fd, STDOUT_FILENO) == -1)
 		free_error_dup(pipe_fd, mini, fd);
+	close(fd);
 }
 
 void	free_mini(t_minishell *mini)
@@ -294,9 +298,6 @@ void	single_command(char *argv, char **envp, t_minishell *mini)
 	mini->temp[2] = dup2(mini->temp[0], STDIN_FILENO);
 	close(mini->temp[0]);
 	temp = create_dumbf_outs(temp, mini);
-	// mini->temp[0] = open("/dev/tty", O_CREAT | O_RDWR | O_TRUNC, 0644);
-	// mini->temp[2] = dup2(mini->temp[0], STDOUT_FILENO);
-	// close(mini->temp[0]);
 	if (excute_command_d(temp, envp) == -1)
 		return (free(temp), free_mini(mini), exit(127));
 }
