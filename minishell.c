@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:13:25 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/20 13:29:28 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/20 15:06:30 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,12 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	j = 0;
+	inti(&mini);
+	env_copy(envp, &mini);
 	while (j < 10)
 	{
 		inpt = readline("Enter text: ");
 		add_history(inpt);
-		inti(&mini);
 		pd = fork();
 		if (pd == 0)
 		{
@@ -44,16 +45,17 @@ int	main(int argc, char **argv, char **envp)
 			mini.number_of_commands = amount_of_commands(inpt);
 			if (mini.number_of_commands == 1)
 			{
-				single_command(inpt, envp, &mini);
+				single_command(inpt, mini.envps, &mini);
 			}
 			else
 			{
 				mini.commands = create_pipex_commands(x,
-						mini.number_of_commands);
+					mini.number_of_commands);
 				freeall(x, mini.number_of_commands);
 				free(inpt);
 				// printf("%d\n", mini.number_of_commands);
-				pipex(mini.number_of_commands + 3, mini.commands, envp, &mini);
+				pipex(mini.number_of_commands + 3, mini.commands, mini.envps,
+					&mini);
 			}
 		}
 		free(inpt);
@@ -149,7 +151,4 @@ int	main(int argc, char **argv, char **envp)
 // 	return (0);
 // }
 
-// cleanin up all malloc when error in pipes
-// error when wrong arg give dumby ex: >lol >gg lsa >fs (lol and gg are created)
 // do error handling
-// here doc not done

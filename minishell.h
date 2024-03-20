@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:12:56 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/15 21:11:18 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/20 15:22:34 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,5 +101,9 @@ void		single_command(char *argv, char **envp, t_minishell *mini);
 char		*input_code_s(char *file, char *argv, int **pipe_fd,
 				t_minishell *mini);
 char		*create_dumbf_outs(char *argv, t_minishell *mini);
-
+int			check_cmd(char *cmd);
+void		excuate(char **command, char *command1, char **env);
+// env
+void		env_copy(char **env, t_minishell *mini);
+void		print_env(char **env);
 #endif

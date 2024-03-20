@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 17:55:08 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/02/19 13:13:19 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/20 15:29:59 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,3 +62,10 @@
 // 		mini->out_type[i] = 2;
 // 	}
 // }
+
+int	check_cmd(char *cmd)
+{
+	if (ft_strncmp(cmd, "/usr/bin/env", 12) == 0)
+		return (1);
+	return (0);
+}

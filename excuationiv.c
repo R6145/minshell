@@ -6,16 +6,16 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 16:43:43 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/13 19:45:52 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/20 15:30:47 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	excute_command_d(char *cmd, char **envp) // outdated
+int	excute_command_d(char *cmd, char **envp)
 {
-	char **command;
-	char *command1;
+	char	**command;
+	char	*command1;
 
 	command = ft_split(cmd, ' ');
 	command1 = create_command(command[0], find_path(envp));
@@ -25,6 +25,11 @@ int	excute_command_d(char *cmd, char **envp) // outdated
 		free_split(command);
 		free(command1);
 		return (-1);
+	}
+	if (check_cmd(command1) == 1)
+	{
+		excuate(command, command1, envp);
+		return (free(command1), free_split(command), (-1));
 	}
 	if (execve(command1, command, envp) == -1)
 	{
@@ -393,4 +398,11 @@ int	check_here_doc(char **cmd, int j)
 		j--;
 	}
 	return (0);
+}
+
+void	excuate(char **command, char *command1, char **env)
+{
+	(void)command;
+	if ((ft_strncmp(command1, "/usr/bin/env", 12) == 0))
+		print_env(env);
 }

@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 22:24:04 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/20 13:29:56 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/20 15:00:13 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,7 @@ void	free_mini(t_minishell *mini)
 {
 	if (mini->commands != NULL)
 		free_split(mini->commands);
+	free_split(mini->envps);
 }
 
 void	free_error_fd(int **pipe_fd, t_minishell *mini)
