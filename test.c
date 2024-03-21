@@ -154,15 +154,75 @@ char	**here_maker(char *cmd)
 	return (names);
 }
 
-int	main(void)
+char	*ft_strdup(const char *src)
 {
-	char *here = "<< here ls <<lol << ggg";
-	char **x = here_maker(here);
-	int i = 0;
-	while (x[i] != NULL)
+	char	*st;
+	int		i;
+
+	i = 0;
+	st = (char *)malloc(ft_strlen(src) + 5);
+	if (!st)
+		return (NULL);
+	while (src[i])
 	{
-		printf("%s\n", x[i]);
+		st[i] = (char)src[i];
 		i++;
 	}
+	st[i] = '\0';
+	return ((char *)st);
+}
+
+char	*env_key(char *cmd)
+{
+	int		i;
+	int		j;
+	char	*file_name;
+
+	i = 0;
+	file_name = malloc(sizeof(char) * (ft_strlen(cmd) + 5));
+	while (cmd[i] != '\0')
+	{
+		if (cmd[i] == '=')
+		{
+			file_name[i] = '\0';
+			return (file_name);
+		}
+		file_name[i] = cmd[i];
+		i++;
+	}
+	file_name[i] = '\0';
+	return (file_name);
+}
+
+char	*bulid_env(char *key_env, char *path)
+{
+	int		i;
+	int		j;
+	char	*env;
+
+	i = 0;
+	while (path[i] != '=' && path[i] != '\0')
+		i++;
+	if (path[i] == '\0' || path[i] == ' ')
+	{
+		j = ft_strlen(key_env);
+		key_env[j++] = '=';
+		key_env[j] = '\0';
+		return (key_env);
+	}
+	free(key_env);
+	return (ft_strdup(path));
+}
+
+int	main(void)
+{
+	char *here = ft_strdup("lolgg");
+	char *pth = ft_strdup("lolgg=joke");
+	char *cd = bulid_env(here, pth);
+	// free(here);
+	free(pth);
+	printf("%s\n", cd);
+	free(cd);
+
 	return (0);
 }

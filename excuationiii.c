@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 22:24:04 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/20 15:00:13 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/21 18:46:49 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	middle_child(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
 	if (file != NULL)
 	{
 		argv[mini->temp[0]] = input_code(file, argv[mini->temp[0]], pipe_fd,
-			mini);
+				mini);
 		if (mini->temp[2] == -1)
 			return (free(file), free_error_fd(pipe_fd, mini));
 		temp = mini->temp[2];
@@ -82,7 +82,7 @@ void	parent(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
 	if (file != NULL)
 	{
 		argv[mini->temp[0]] = input_code(file, argv[mini->temp[0]], pipe_fd,
-			mini);
+				mini);
 		if (mini->temp[2] == -1)
 			return (free(file), free_error_fd(pipe_fd, mini));
 		temp = mini->temp[2];
@@ -182,6 +182,8 @@ void	create_dumbf_out(char **argv, int **pipe_fd, t_minishell *mini)
 
 void	free_mini(t_minishell *mini)
 {
+	if (mini == NULL)
+		return ;
 	if (mini->commands != NULL)
 		free_split(mini->commands);
 	free_split(mini->envps);

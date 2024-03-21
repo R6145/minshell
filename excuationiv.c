@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 16:43:43 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/20 15:30:47 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/21 19:46:32 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -405,4 +405,24 @@ void	excuate(char **command, char *command1, char **env)
 	(void)command;
 	if ((ft_strncmp(command1, "/usr/bin/env", 12) == 0))
 		print_env(env);
+	else if (ft_strncmp(command1, "export", 7) == 0)
+		add_env(env, command[1]);
+}
+
+void	excuate_s(char *command1, char **env)
+{
+	char	*command;
+	char	*command2;
+	char	**command_s;
+
+	command = cleanup_input(command1);
+	command2 = command;
+	create_dumby_files(command, NULL, NULL);
+	command = cleanup_output(command);
+	free(command2);
+	command_s = ft_split(command, ' ');
+	if (ft_strncmp(command_s[0], "export", 7) == 0)
+		add_env(env, command_s[1]);
+	free(command);
+	free_split(command_s);
 }

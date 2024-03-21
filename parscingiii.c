@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 17:55:08 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/20 15:29:59 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/21 19:36:54 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,23 @@ int	check_cmd(char *cmd)
 {
 	if (ft_strncmp(cmd, "/usr/bin/env", 12) == 0)
 		return (1);
+	else if (ft_strncmp(cmd, "export", 7) == 0)
+		return (1);
 	return (0);
+}
+
+int	check_cmd2(char *cmd)
+{
+	char	*command;
+	char	*command2;
+	char	**command_s;
+
+	command = cleanup_input(cmd);
+	command2 = command;
+	command = cleanup_output(command);
+	free(command2);
+	command_s = ft_split(command, ' ');
+	if (ft_strncmp(command_s[0], "export", 7) == 0)
+		return (free(command), free_split(command_s), 1);
+	return (free(command), free_split(command_s), 0);
 }

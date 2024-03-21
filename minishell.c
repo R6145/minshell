@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:13:25 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/20 15:06:30 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/21 19:53:13 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,31 +37,45 @@ int	main(int argc, char **argv, char **envp)
 	while (j < 10)
 	{
 		inpt = readline("Enter text: ");
-		add_history(inpt);
-		pd = fork();
-		if (pd == 0)
+		if (inpt[0] != '\0')
 		{
-			x = cut_commands(inpt);
+			add_history(inpt);
 			mini.number_of_commands = amount_of_commands(inpt);
-			if (mini.number_of_commands == 1)
+			// printf("%d\n", check_cmd2(inpt));
+			if (mini.number_of_commands == 1 && check_cmd2(inpt) == 1)
 			{
-				single_command(inpt, mini.envps, &mini);
+				excuate_s(inpt, mini.envps);
+				pd = -1;
 			}
 			else
+				pd = fork();
+			if (pd == 0)
 			{
-				mini.commands = create_pipex_commands(x,
-					mini.number_of_commands);
-				freeall(x, mini.number_of_commands);
-				free(inpt);
-				// printf("%d\n", mini.number_of_commands);
-				pipex(mini.number_of_commands + 3, mini.commands, mini.envps,
-					&mini);
+				// printf("here\n");
+				x = cut_commands(inpt);
+				mini.number_of_commands = amount_of_commands(inpt);
+				if (mini.number_of_commands == 1)
+				{
+					single_command(inpt, mini.envps, &mini);
+				}
+				else
+				{
+					mini.commands = create_pipex_commands(x,
+							mini.number_of_commands);
+					freeall(x, mini.number_of_commands);
+					free(inpt);
+					// printf("%d\n", mini.number_of_commands);
+					pipex(mini.number_of_commands + 3, mini.commands,
+						mini.envps, &mini);
+				}
 			}
+			if (inpt != NULL)
+				free(inpt);
+			wait(NULL);
 		}
-		free(inpt);
-		wait(NULL);
 		j++;
 	}
+	free_mini(&mini);
 	return (0);
 }
 
