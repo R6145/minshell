@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 22:24:04 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/21 18:46:49 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/22 22:24:12 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	child(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
 	close(fd);
 	if (excute_command(argv, envp, mini->temp[0] - 1) == -1)
 		return (free_mini(mini), free_pipe(pipe_fd), exit(127));
+	return (free_mini(mini), free_pipe(pipe_fd), exit(0));
 }
 
 void	middle_child(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
@@ -57,6 +58,7 @@ void	middle_child(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
 	close_pipe(pipe_fd, mini->temp[1]);
 	if (excute_command(argv, envp, mini->temp[0]) == -1)
 		return (free_mini(mini), free_pipe(pipe_fd), exit(127));
+	return (free_mini(mini), free_pipe(pipe_fd), exit(0));
 }
 
 void	middle(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
@@ -98,6 +100,7 @@ void	parent(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
 	close_pipe(pipe_fd, mini->temp[1]);
 	if (excute_command(argv, envp, mini->temp[1] - 2) == -1)
 		return (free_mini(mini), free_pipe(pipe_fd), exit(127));
+	return (free_mini(mini), free_pipe(pipe_fd), exit(0));
 }
 
 int	pipex(int argc, char **argv, char **envp, t_minishell *mini)
@@ -303,4 +306,5 @@ void	single_command(char *argv, char **envp, t_minishell *mini)
 	temp = create_dumbf_outs(temp, mini);
 	if (excute_command_d(temp, envp) == -1)
 		return (free(temp), free_mini(mini), exit(127));
+	return (free(temp), free_mini(mini), exit(0));
 }

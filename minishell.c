@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:13:25 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/21 19:53:13 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/22 21:41:40 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,14 @@ int	main(int argc, char **argv, char **envp)
 	char		*inpt;
 	pid_t		pd;
 	t_minishell	mini;
+	int			status;
 
 	(void)argc;
 	(void)argv;
 	j = 0;
 	inti(&mini);
 	env_copy(envp, &mini);
-	while (j < 10)
+	while (1 == 1)
 	{
 		inpt = readline("Enter text: ");
 		if (inpt[0] != '\0')
@@ -44,6 +45,7 @@ int	main(int argc, char **argv, char **envp)
 			// printf("%d\n", check_cmd2(inpt));
 			if (mini.number_of_commands == 1 && check_cmd2(inpt) == 1)
 			{
+				exiting(inpt, &mini);
 				excuate_s(inpt, mini.envps);
 				pd = -1;
 			}
@@ -71,7 +73,8 @@ int	main(int argc, char **argv, char **envp)
 			}
 			if (inpt != NULL)
 				free(inpt);
-			wait(NULL);
+			wait(&status);
+			printf("%d\n", WEXITSTATUS(status));
 		}
 		j++;
 	}

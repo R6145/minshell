@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 16:43:43 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/21 19:46:32 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/22 22:22:09 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	excute_command_d(char *cmd, char **envp)
 	if (check_cmd(command1) == 1)
 	{
 		excuate(command, command1, envp);
-		return (free(command1), free_split(command), (-1));
+		return (free(command1), free_split(command), (20));
 	}
 	if (execve(command1, command, envp) == -1)
 	{
@@ -402,11 +402,14 @@ int	check_here_doc(char **cmd, int j)
 
 void	excuate(char **command, char *command1, char **env)
 {
-	(void)command;
 	if ((ft_strncmp(command1, "/usr/bin/env", 12) == 0))
 		print_env(env);
 	else if (ft_strncmp(command1, "export", 7) == 0)
 		add_env(env, command[1]);
+	else if (ft_strncmp(command1, "unset", 6) == 0)
+		remove_env(env, command[1]);
+	else if (ft_strncmp(command1, "/usr/bin/pwd", 12) == 0)
+		get_pwd();
 }
 
 void	excuate_s(char *command1, char **env)
@@ -423,6 +426,32 @@ void	excuate_s(char *command1, char **env)
 	command_s = ft_split(command, ' ');
 	if (ft_strncmp(command_s[0], "export", 7) == 0)
 		add_env(env, command_s[1]);
+	else if (ft_strncmp(command_s[0], "unset", 6) == 0)
+		remove_env(env, command_s[1]);
+	free(command);
+	free_split(command_s);
+}
+
+void	exiting(char *command1, t_minishell *mini)
+{
+	char	*command;
+	char	*command2;
+	char	**command_s;
+
+	command = cleanup_input(command1);
+	command2 = command;
+	create_dumby_files(command, NULL, NULL);
+	command = cleanup_output(command);
+	free(command2);
+	command_s = ft_split(command, ' ');
+	if (ft_strncmp(command_s[0], "exit", 5) == 0)
+	{
+		free(command);
+		free(command1);
+		free_split(command_s);
+		free_mini(mini);
+		exit(0);
+	}
 	free(command);
 	free_split(command_s);
 }

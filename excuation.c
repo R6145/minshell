@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 23:20:37 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/21 19:13:34 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/22 22:22:26 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	excute_command(char **argv, char **envp, int x)
 	if (check_cmd(command1) == 1)
 	{
 		excuate(command, command1, envp);
-		return (free(command1), free_split(command), (-1));
+		return (free(command1), free_split(command), (20));
 	}
 	if (execve(command1, command, envp) == -1)
 	{
