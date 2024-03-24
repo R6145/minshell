@@ -6,13 +6,13 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 22:24:04 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/23 16:56:51 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/24 20:47:19 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	child(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
+void	child(char **argv, int **pipe_fd, t_minishell *mini)
 {
 	int	fd;
 
@@ -28,12 +28,13 @@ void	child(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
 	}
 	close_pipe(pipe_fd, mini->temp[1]);
 	close(fd);
-	if (excute_command(argv, envp, mini->temp[0] - 1) == -1)
-		return (free_mini(mini), free_pipe(pipe_fd), exit(127));
-	return (free_mini(mini), free_pipe(pipe_fd), exit(0));
+	// if (excute_command(argv, mini, mini->temp[0] - 1) == -1)
+	// 	return (free_mini(mini), free_pipe(pipe_fd), exit(127));
+	// return (free_mini(mini), free_pipe(pipe_fd), exit(0));
+	excute_code(argv, pipe_fd, mini, mini->temp[0] - 1);
 }
 
-void	middle_child(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
+void	middle_child(char **argv, int **pipe_fd, t_minishell *mini)
 {
 	char	*file;
 	int		temp;
@@ -56,12 +57,13 @@ void	middle_child(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
 		free_error_dup(pipe_fd, mini, mini->temp[2]);
 	create_dumbf_in(0, argv, pipe_fd, mini);
 	close_pipe(pipe_fd, mini->temp[1]);
-	if (excute_command(argv, envp, mini->temp[0]) == -1)
-		return (free_mini(mini), free_pipe(pipe_fd), exit(127));
-	return (free_mini(mini), free_pipe(pipe_fd), exit(0));
+	// if (excute_command(argv, mini, mini->temp[0]) == -1)
+	// 	return (free_mini(mini), free_pipe(pipe_fd), exit(127));
+	// return (free_mini(mini), free_pipe(pipe_fd), exit(0));
+	excute_code(argv, pipe_fd, mini, mini->temp[0]);
 }
 
-void	middle(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
+void	middle(char **argv, int **pipe_fd, t_minishell *mini)
 {
 	pid_t	pid;
 
@@ -71,11 +73,11 @@ void	middle(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
 	if (pid == 0)
 	{
 		wait(NULL);
-		middle_child(argv, envp, pipe_fd, mini);
+		middle_child(argv, pipe_fd, mini);
 	}
 }
 
-void	parent(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
+void	parent(char **argv, int **pipe_fd, t_minishell *mini)
 {
 	char	*file;
 	int		temp;
@@ -98,12 +100,13 @@ void	parent(char **argv, char **envp, int **pipe_fd, t_minishell *mini)
 		free_error_dup(pipe_fd, mini, mini->temp[2]);
 	create_dumbf_out(argv, pipe_fd, mini);
 	close_pipe(pipe_fd, mini->temp[1]);
-	if (excute_command(argv, envp, mini->temp[1] - 2) == -1)
-		return (free_mini(mini), free_pipe(pipe_fd), exit(127));
-	return (free_mini(mini), free_pipe(pipe_fd), exit(0));
+	// if (excute_command(argv, mini, mini->temp[1] - 2) == -1)
+	// 	return (free_mini(mini), free_pipe(pipe_fd), exit(127));
+	// return (free_mini(mini), free_pipe(pipe_fd), exit(0));
+	excute_code(argv, pipe_fd, mini, mini->temp[1] - 2);
 }
 
-int	pipex(int argc, char **argv, char **envp, t_minishell *mini)
+int	pipex(int argc, char **argv, t_minishell *mini)
 {
 	pid_t	pid;
 	int		**fd;
@@ -113,16 +116,28 @@ int	pipex(int argc, char **argv, char **envp, t_minishell *mini)
 	fd = fd_create(argc);
 	pid = forking(fd, argc);
 	if (pid == 0)
-		child(argv, envp, fd, mini);
+		child(argv, fd, mini);
 	while (mini->temp[0] < argc - 2)
 	{
-		middle(argv, envp, fd, mini);
+		middle(argv, fd, mini);
 		mini->temp[0]++;
 	}
 	if (check_here_doc(argv, mini->temp[1] - 3) == 1)
 		wait(NULL);
-	parent(argv, envp, fd, mini);
+	parent(argv, fd, mini);
 	return (0);
+}
+
+void	excute_code(char **argv, int **pipe_fd, t_minishell *mini, int x)
+{
+	int	y;
+
+	y = excute_command(argv, mini, x);
+	if (y == -1)
+		return (free_mini(mini), free_pipe(pipe_fd), exit(127));
+	else if (y == 1)
+		return (free_mini(mini), free_pipe(pipe_fd), exit(1));
+	return (free_mini(mini), free_pipe(pipe_fd), exit(0));
 }
 
 void	create_dumbf_in(int i, char **argv, int **pipe_fd, t_minishell *mini)
@@ -285,7 +300,7 @@ char	*create_dumbf_outs(char *argv, t_minishell *mini)
 	return (argv);
 }
 
-void	single_command(char *argv, char **envp, t_minishell *mini)
+void	single_command(char *argv, t_minishell *mini)
 {
 	char	*file;
 	char	*temp;
@@ -304,7 +319,10 @@ void	single_command(char *argv, char **envp, t_minishell *mini)
 	mini->temp[2] = dup2(mini->temp[0], STDIN_FILENO);
 	close(mini->temp[0]);
 	temp = create_dumbf_outs(temp, mini);
-	if (excute_command_d(temp, envp) == -1)
-		return (free(temp), free_mini(mini), exit(127));
-	return (free(temp), free_mini(mini), exit(0));
+	mini->temp[1] = excute_command_d(temp, mini);
+	if (mini->temp[1] == -1)
+		return (free_mini(mini), exit(127));
+	else if (mini->temp[1] == 1)
+		return (free_mini(mini), exit(1));
+	return (free_mini(mini), exit(0));
 }

@@ -6,19 +6,19 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 16:43:43 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/23 16:10:50 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/24 20:45:44 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	excute_command_d(char *cmd, char **envp)
+int	excute_command_d(char *cmd, t_minishell *mini)
 {
 	char	**command;
 	char	*command1;
 
 	command = ft_split(cmd, ' ');
-	command1 = create_command(command[0], find_path(envp));
+	command1 = create_command(command[0], find_path(mini->envps));
 	if (command1 == NULL)
 	{
 		ft_putstr_fd("Error: Unknown Command\n", 2);
@@ -28,10 +28,10 @@ int	excute_command_d(char *cmd, char **envp)
 	}
 	if (check_cmd(command1) == 1)
 	{
-		excuate(command, command1, envp);
-		return (free(command1), free_split(command), (20));
+		mini->temp[0] = excuate(command, command1, mini->envps);
+		return (free(command1), free_split(command), mini->temp[0]);
 	}
-	if (execve(command1, command, envp) == -1)
+	if (execve(command1, command, mini->envps) == -1)
 	{
 		ft_putstr_fd("Error: Command unable to excute\n", 2);
 		free_split(command);
@@ -400,8 +400,11 @@ int	check_here_doc(char **cmd, int j)
 	return (0);
 }
 
-void	excuate(char **command, char *command1, char **env)
+int	excuate(char **command, char *command1, char **env)
 {
+	int	x;
+
+	x = 0;
 	if ((ft_strncmp(command1, "/usr/bin/env", 12) == 0))
 		print_env(env);
 	else if (ft_strncmp(command1, "export", 7) == 0)
@@ -410,14 +413,19 @@ void	excuate(char **command, char *command1, char **env)
 		remove_env(env, command[1]);
 	else if (ft_strncmp(command1, "/usr/bin/pwd", 12) == 0)
 		get_pwd();
+	else if (ft_strncmp(command1, "cd", 3) == 0)
+		x = cd(env, command[1]);
+	return (x);
 }
 
-void	excuate_s(char *command1, char **env)
+int	excuate_s(char *command1, char **env)
 {
 	char	*command;
 	char	*command2;
 	char	**command_s;
+	int		x;
 
+	x = 0;
 	command = cleanup_input(command1);
 	command2 = command;
 	create_dumby_files(command, NULL, NULL);
@@ -428,10 +436,11 @@ void	excuate_s(char *command1, char **env)
 		add_env(env, command_s[1]);
 	else if (ft_strncmp(command_s[0], "unset", 6) == 0)
 		remove_env(env, command_s[1]);
-	else if (ft_strncmp(command_s[0], "cd", 6) == 0)
-		cd(env, command_s[1]);
+	else if (ft_strncmp(command_s[0], "cd", 3) == 0)
+		x = cd(env, command_s[1]);
 	free(command);
 	free_split(command_s);
+	return (x);
 }
 
 void	exiting(char *command1, t_minishell *mini)

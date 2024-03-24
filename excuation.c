@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 23:20:37 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/22 22:22:26 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/24 20:40:32 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,13 @@ char	*create_command_extra(char *command, char *args)
 	return (full_command);
 }
 
-int	excute_command(char **argv, char **envp, int x)
+int	excute_command(char **argv, t_minishell *mini, int x)
 {
 	char	**command;
 	char	*command1;
 
 	command = ft_split(argv[x], ' ');
-	command1 = create_command(command[0], find_path(envp));
+	command1 = create_command(command[0], find_path(mini->envps));
 	if (command1 == NULL)
 	{
 		ft_putstr_fd("Error: Unknown Command\n", 2);
@@ -99,10 +99,10 @@ int	excute_command(char **argv, char **envp, int x)
 	}
 	if (check_cmd(command1) == 1)
 	{
-		excuate(command, command1, envp);
-		return (free(command1), free_split(command), (20));
+		mini->temp[0] = excuate(command, command1, mini->envps);
+		return (free(command1), free_split(command), mini->temp[0]);
 	}
-	if (execve(command1, command, envp) == -1)
+	if (execve(command1, command, mini->envps) == -1)
 	{
 		ft_putstr_fd("Error: Command unable to excute\n", 2);
 		free_split(command);

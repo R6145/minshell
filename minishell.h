@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:12:56 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/23 16:51:49 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/24 20:53:19 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_list2
 	// int		output[1000];
 	// int		out_type[1000];
 	int		temp[3];
+	int		exit_status;
 }			t_minishell;
 
 // minishell utills
@@ -60,18 +61,17 @@ void		free_split(char **var);
 char		*find_path(char **envp);
 char		*create_command(char *command, char *path);
 char		*create_command_extra(char *command, char *args);
-int			excute_command(char **argv, char **envp, int x);
-int			excute_command_d(char *cmd, char **envp);
+int			excute_command(char **argv, t_minishell *mini, int x);
+int			excute_command_d(char *cmd, t_minishell *mini);
 pid_t		forking(int **fd, int argc);
 int			**fd_create(int argc);
 void		piping(int **x, int argc);
 void		close_pipe(int **fd, int argc);
-void		child(char **argv, char **envp, int **pipe_fd, t_minishell *mini);
-void		middle_child(char **argv, char **envp, int **pipe_fd,
-				t_minishell *mini);
-void		middle(char **argv, char **envp, int **pipe_fd, t_minishell *mini);
-void		parent(char **argv, char **envp, int **pipe_fd, t_minishell *mini);
-int			pipex(int argc, char **argv, char **envp, t_minishell *mini);
+void		child(char **argv, int **pipe_fd, t_minishell *mini);
+void		middle_child(char **argv, int **pipe_fd, t_minishell *mini);
+void		middle(char **argv, int **pipe_fd, t_minishell *mini);
+void		parent(char **argv, int **pipe_fd, t_minishell *mini);
+int			pipex(int argc, char **argv, t_minishell *mini);
 char		**create_pipex_commands(char **cmd, int cmd_num);
 int			open_file(t_minishell *mini, char **argv, int **pipe_fd);
 char		*get_filename(char *cmd);
@@ -97,20 +97,21 @@ pid_t		here_doc_f(int fd[2], t_minishell *mini, int **pipe_fd);
 int			check_here_doc(char **cmd, int j);
 char		*input_code(char *file, char *argv, int **pipe_fd,
 				t_minishell *mini);
-void		single_command(char *argv, char **envp, t_minishell *mini);
+void		single_command(char *argv, t_minishell *mini);
 char		*input_code_s(char *file, char *argv, int **pipe_fd,
 				t_minishell *mini);
 char		*create_dumbf_outs(char *argv, t_minishell *mini);
 int			check_cmd(char *cmd);
 int			check_cmd2(char *cmd);
-void		excuate(char **command, char *command1, char **env);
-void		excuate_s(char *command1, char **env);
+int			excuate(char **command, char *command1, char **env);
+int			excuate_s(char *command1, char **env);
+void		excute_code(char **argv, int **pipe_fd, t_minishell *mini, int x);
 // buldiin
 void		exiting(char *command1, t_minishell *mini);
 void		get_pwd(void);
 void		update_opwd(char **env, int j);
 void		update_pwd(char **env);
-void		cd(char **env, char *path);
+int			cd(char **env, char *path);
 // env
 void		env_copy(char **env, t_minishell *mini);
 void		print_env(char **env);

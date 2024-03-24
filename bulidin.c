@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 21:48:19 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/23 16:52:39 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/24 19:28:17 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,16 @@ void	update_pwd(char **env)
 	update_opwd(env, -1);
 }
 
-void	cd(char **env, char *path)
+int	cd(char **env, char *path)
 {
 	int	stat;
 
-	(void)env;
 	stat = chdir(path);
-	if (stat != 0)
-		return ;
+	if (stat == -1)
+	{
+		ft_putstr_fd("No such file or directory\n", 2);
+		return (1);
+	}
 	update_pwd(env);
-	return ;
+	return (0);
 }

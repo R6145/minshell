@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:13:25 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/22 21:41:40 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/24 20:55:03 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,36 +46,38 @@ int	main(int argc, char **argv, char **envp)
 			if (mini.number_of_commands == 1 && check_cmd2(inpt) == 1)
 			{
 				exiting(inpt, &mini);
-				excuate_s(inpt, mini.envps);
-				pd = -1;
+				mini.exit_status = excuate_s(inpt, mini.envps);
 			}
 			else
-				pd = fork();
-			if (pd == 0)
 			{
-				// printf("here\n");
-				x = cut_commands(inpt);
-				mini.number_of_commands = amount_of_commands(inpt);
-				if (mini.number_of_commands == 1)
+				pd = fork();
+				if (pd == 0)
 				{
-					single_command(inpt, mini.envps, &mini);
+					// printf("here\n");
+					x = cut_commands(inpt);
+					mini.number_of_commands = amount_of_commands(inpt);
+					if (mini.number_of_commands == 1)
+					{
+						single_command(inpt, &mini);
+					}
+					else
+					{
+						mini.commands = create_pipex_commands(x,
+								mini.number_of_commands);
+						freeall(x, mini.number_of_commands);
+						free(inpt);
+						// printf("%d\n", mini.number_of_commands);
+						pipex(mini.number_of_commands + 3, mini.commands,
+							&mini);
+					}
 				}
-				else
-				{
-					mini.commands = create_pipex_commands(x,
-							mini.number_of_commands);
-					freeall(x, mini.number_of_commands);
+				if (inpt != NULL)
 					free(inpt);
-					// printf("%d\n", mini.number_of_commands);
-					pipex(mini.number_of_commands + 3, mini.commands,
-						mini.envps, &mini);
-				}
+				waitpid(pd, &status, 0);
+				mini.exit_status = WEXITSTATUS(status);
 			}
-			if (inpt != NULL)
-				free(inpt);
-			wait(&status);
-			printf("%d\n", WEXITSTATUS(status));
 		}
+		printf("%d\n", mini.exit_status);
 		j++;
 	}
 	free_mini(&mini);
