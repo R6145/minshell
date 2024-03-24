@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 23:20:37 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/24 20:40:32 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/24 20:59:52 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	excute_command(char **argv, t_minishell *mini, int x)
 	}
 	if (check_cmd(command1) == 1)
 	{
-		mini->temp[0] = excuate(command, command1, mini->envps);
+		mini->temp[0] = excuate(command, command1, mini);
 		return (free(command1), free_split(command), mini->temp[0]);
 	}
 	if (execve(command1, command, mini->envps) == -1)

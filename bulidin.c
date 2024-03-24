@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 21:48:19 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/24 19:28:17 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/24 21:37:45 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,26 @@ int	cd(char **env, char *path)
 	}
 	update_pwd(env);
 	return (0);
+}
+
+void	echo(t_minishell *mini, char **cmd)
+{
+	int	i;
+	int	status;
+
+	i = 1;
+	(void)mini;
+	while (cmd[i] != NULL)
+	{
+		if (i != 1)
+			printf(" ");
+		if (ft_strncmp(cmd[i], "-n", 3) == 0)
+			status = 1;
+		else
+			printf("%s", cmd[i]);
+		i++;
+	}
+	if (status != 1)
+		printf("\n");
+	return ;
 }

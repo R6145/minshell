@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 22:24:04 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/24 20:47:19 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/24 20:58:23 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,6 @@ void	middle_child(char **argv, int **pipe_fd, t_minishell *mini)
 		free_error_dup(pipe_fd, mini, mini->temp[2]);
 	create_dumbf_in(0, argv, pipe_fd, mini);
 	close_pipe(pipe_fd, mini->temp[1]);
-	// if (excute_command(argv, mini, mini->temp[0]) == -1)
-	// 	return (free_mini(mini), free_pipe(pipe_fd), exit(127));
-	// return (free_mini(mini), free_pipe(pipe_fd), exit(0));
 	excute_code(argv, pipe_fd, mini, mini->temp[0]);
 }
 
@@ -100,9 +97,6 @@ void	parent(char **argv, int **pipe_fd, t_minishell *mini)
 		free_error_dup(pipe_fd, mini, mini->temp[2]);
 	create_dumbf_out(argv, pipe_fd, mini);
 	close_pipe(pipe_fd, mini->temp[1]);
-	// if (excute_command(argv, mini, mini->temp[1] - 2) == -1)
-	// 	return (free_mini(mini), free_pipe(pipe_fd), exit(127));
-	// return (free_mini(mini), free_pipe(pipe_fd), exit(0));
 	excute_code(argv, pipe_fd, mini, mini->temp[1] - 2);
 }
 

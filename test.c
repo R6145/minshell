@@ -216,13 +216,13 @@ char	*bulid_env(char *key_env, char *path)
 
 int	main(void)
 {
-	char *here = ft_strdup("lolgg");
-	char *pth = ft_strdup("lolgg=joke");
-	char *cd = bulid_env(here, pth);
-	// free(here);
-	free(pth);
-	printf("%s\n", cd);
-	free(cd);
-
+	// char *here = ft_strdup("lolgg");
+	// char *pth = ft_strdup("lolgg=joke");
+	// char *cd = bulid_env(here, pth);
+	// // free(here);
+	// free(pth);
+	// printf("%s\n", cd);
+	// free(cd);
+	printf("%d\n", between_quo("lol\"hel\"lol\"lo\"gg", 9));
 	return (0);
 }

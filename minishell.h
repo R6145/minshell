@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:12:56 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/24 20:53:19 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/24 21:11:35 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ char		*input_code_s(char *file, char *argv, int **pipe_fd,
 char		*create_dumbf_outs(char *argv, t_minishell *mini);
 int			check_cmd(char *cmd);
 int			check_cmd2(char *cmd);
-int			excuate(char **command, char *command1, char **env);
+int			excuate(char **command, char *command1, t_minishell *mini);
 int			excuate_s(char *command1, char **env);
 void		excute_code(char **argv, int **pipe_fd, t_minishell *mini, int x);
 // buldiin
@@ -112,6 +112,7 @@ void		get_pwd(void);
 void		update_opwd(char **env, int j);
 void		update_pwd(char **env);
 int			cd(char **env, char *path);
+void		echo(t_minishell *mini, char **cmd);
 // env
 void		env_copy(char **env, t_minishell *mini);
 void		print_env(char **env);
