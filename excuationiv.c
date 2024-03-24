@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 16:43:43 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/24 21:10:59 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/24 23:25:52 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	excute_command_d(char *cmd, t_minishell *mini)
 	}
 	if (check_cmd(command1) == 1)
 	{
-		mini->temp[0] = excuate(command, command1, mini);
+		mini->temp[0] = excuate(cmd, command, command1, mini);
 		return (free(command1), free_split(command), mini->temp[0]);
 	}
 	if (execve(command1, command, mini->envps) == -1)
@@ -400,7 +400,7 @@ int	check_here_doc(char **cmd, int j)
 	return (0);
 }
 
-int	excuate(char **command, char *command1, t_minishell *mini)
+int	excuate(char *cmd, char **command, char *command1, t_minishell *mini)
 {
 	int	x;
 
@@ -416,7 +416,7 @@ int	excuate(char **command, char *command1, t_minishell *mini)
 	else if (ft_strncmp(command1, "cd", 3) == 0)
 		x = cd(mini->envps, command[1]);
 	else if (ft_strncmp(command1, "/usr/bin/echo", 13) == 0)
-		echo(mini, command);
+		echo(mini, command,cmd);
 	return (x);
 }
 
