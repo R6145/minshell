@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 21:48:19 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/22 22:33:18 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/23 16:52:39 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,68 @@ void	get_pwd(void)
 	return ;
 }
 
-// void	cd(void)
-// {
-// 	char	x[1000];
+void	update_opwd(char **env, int j)
+{
+	int		i;
+	char	*key_env;
 
-// 	if (getcwd(x, 1000))
-// 	{
-// 		printf("%s\n", x);
-// 	}
-// 	return ;
-// }
+	i = 0;
+	while (env[i] != NULL)
+	{
+		key_env = env_key(env[i]);
+		if (ft_strncmp("OLDPWD", key_env, 7) == 0)
+		{
+			free(env[i]);
+			free(key_env);
+			if (j == -1)
+				env[i] = ft_strdup("OLDPWD=");
+			else
+				env[i] = ft_strjoin("OLDPWD=", env[j] + 4);
+			return ;
+		}
+		free(key_env);
+		i++;
+	}
+	if (j == -1)
+		env_add_emv(env, ft_strdup("OLDPWD="));
+	else
+		env_add_emv(env, ft_strjoin("OLDPWD=", env[j] + 4));
+}
+
+void	update_pwd(char **env)
+{
+	int		i;
+	char	*key_env;
+	char	path[1000];
+
+	i = 0;
+	getcwd(path, 1000);
+	while (env[i] != NULL)
+	{
+		key_env = env_key(env[i]);
+		if (ft_strncmp("PWD", key_env, 4) == 0)
+		{
+			update_opwd(env, i);
+			free(env[i]);
+			free(key_env);
+			env[i] = ft_strjoin("PWD=", path);
+			return ;
+		}
+		free(key_env);
+		i++;
+	}
+	env_add_emv(env, ft_strjoin("PWD=", path));
+	update_opwd(env, -1);
+}
+
+void	cd(char **env, char *path)
+{
+	int	stat;
+
+	(void)env;
+	stat = chdir(path);
+	if (stat != 0)
+		return ;
+	update_pwd(env);
+	return ;
+}

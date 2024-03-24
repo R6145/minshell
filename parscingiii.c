@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 17:55:08 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/22 22:19:26 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/23 16:09:28 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ int	check_cmd2(char *cmd)
 	if (ft_strncmp(command_s[0], "unset", 6) == 0)
 		return (free(command), free_split(command_s), 1);
 	if (ft_strncmp(command_s[0], "exit", 6) == 0)
+		return (free(command), free_split(command_s), 1);
+	if (ft_strncmp(command_s[0], "cd", 6) == 0)
 		return (free(command), free_split(command_s), 1);
 	return (free(command), free_split(command_s), 0);
 }

@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 16:43:43 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/22 22:22:09 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/23 16:10:50 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -428,6 +428,8 @@ void	excuate_s(char *command1, char **env)
 		add_env(env, command_s[1]);
 	else if (ft_strncmp(command_s[0], "unset", 6) == 0)
 		remove_env(env, command_s[1]);
+	else if (ft_strncmp(command_s[0], "cd", 6) == 0)
+		cd(env, command_s[1]);
 	free(command);
 	free_split(command_s);
 }
