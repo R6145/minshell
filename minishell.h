@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:12:56 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/26 17:44:31 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/27 00:19:29 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int			amount_of_arg(char **cmd);
 // void		check_for_ipop(t_minishell *mini, char **cmd);
 // void		check_for_ipop2(t_minishell *mini, char **cmd, int i);
 // void		ipop_type(t_minishell *mini, char *line, int j, int i);
+char		*cleanup_quotes(char *cmd);
 // freeing functions
 void		freeall(char **st, int j);
 void		free_pipe(int **fd);
@@ -110,6 +111,9 @@ char		*rp_cmd(char *cmd, char *key, char *des, int j);
 char		*rp_cmd_emp(char *cmd, char *key, int j);
 char		*enved_cmd(char *cmd, char *cmd1, int j, t_minishell *mini);
 char		*env_handling(char *cmd, t_minishell *mini);
+int			between_sq(char *cmd, int j);
+int			between(char *cmd, int j);
+int			between_state(int state);
 // buldiin
 void		exiting(char *command1, t_minishell *mini);
 void		get_pwd(void);

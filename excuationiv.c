@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 16:43:43 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/26 17:46:01 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/27 00:24:04 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@ int	excute_command_d(char *cmd, t_minishell *mini)
 	char	*command1;
 
 	cmd = env_handling(cmd, mini);
+	cmd = cleanup_quotes(cmd);
 	command = ft_split(cmd, ' ');
 	free(cmd);
 	command1 = create_command(command[0], find_path(mini->envps));
 	if (command1 == NULL)
 	{
 		ft_putstr_fd("Error: Unknown Command\n", 2);
-		free_split(command);
-		return (free(command1), (-1));
+		return (free_split(command), free(command1), (-1));
 	}
 	if (check_cmd(command1) == 1)
 	{
@@ -434,6 +434,9 @@ int	excuate_s(char *command1, char **env)
 	create_dumby_files(command, NULL, NULL);
 	command = cleanup_output(command);
 	free(command2);
+	command2 = command;
+	command = cleanup_quotes(command1);
+	free(command2);
 	command_s = ft_split(command, ' ');
 	if (ft_strncmp(command_s[0], "export", 7) == 0)
 		add_env(env, command_s[1]);
@@ -557,7 +560,7 @@ char	*env_handling(char *cmd, t_minishell *mini)
 	while ((int)ft_strlen(cmd) >= j && cmd[j] != '\0')
 	{
 		i = 0;
-		if (cmd[j] == '$')
+		if (cmd[j] == '$' && between_sq(cmd, j) == 0)
 		{
 			j++;
 			while (cmd[j] != ' ' && cmd[j] != '\0' && cmd[j] != '\"'
@@ -572,4 +575,89 @@ char	*env_handling(char *cmd, t_minishell *mini)
 	}
 	free(cmd_cleaned);
 	return (cmd);
+}
+
+char	*cleanup_quotes(char *cmd)
+{
+	int		i;
+	int		j;
+	char	*cmd1;
+
+	i = 0;
+	j = 0;
+	cmd1 = malloc(sizeof(char) * (ft_strlen(cmd) + 2));
+	while (cmd[j] != '\0')
+	{
+		if (cmd[j] != '\"' && cmd[j] != '\'')
+			cmd1[i++] = cmd[j];
+		else if ((cmd[j] == '\"' || cmd[j] == '\'') && between(cmd, j) == 0)
+			cmd1[i++] = cmd[j];
+		j++;
+	}
+	cmd1[i] = '\0';
+	free(cmd);
+	return (cmd1);
+}
+
+int	between_sq(char *cmd, int j)
+{
+	int	i;
+	int	state;
+	int	state2;
+
+	i = 0;
+	state = 0;
+	state2 = 0;
+	while (cmd[i] != '\0' && i <= j)
+	{
+		if (cmd[i] == '\"')
+			state++;
+		if (cmd[i] == '\'')
+		{
+			if (state % 2 == 0 && state2 != 1)
+				state2 = 1;
+			else
+				state2 = 0;
+		}
+		i++;
+	}
+	return (state2);
+}
+
+int	between(char *cmd, int j)
+{
+	int	i[4];
+
+	i[0] = 0;
+	i[1] = 0;
+	i[2] = 0;
+	i[3] = 0;
+	while (cmd[i[0]] != '\0' && i[0] <= j)
+	{
+		if (cmd[i[0]] == '\"')
+			i[1] = between_state(i[1]);
+		if (cmd[i[0]] == '\'')
+			i[2] = between_state(i[2]);
+		if (cmd[i[0]] == '\'' || cmd[i[0]] == '\"')
+			i[3]++;
+		if (i[0] == j)
+		{
+			if (i[3] != 1 && (i[2] == 1 || i[1] == 1))
+				return (0);
+			return (1);
+		}
+		if (i[1] == 0 && i[2] == 0)
+			i[3] = 0;
+		i[0]++;
+	}
+	return (05);
+}
+
+int	between_state(int state)
+{
+	if (state == 0)
+		state = 1;
+	else
+		state = 0;
+	return (state);
 }

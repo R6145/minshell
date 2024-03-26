@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 21:48:19 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/26 17:09:54 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/27 00:26:30 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,17 +98,18 @@ void	echo(char **cmd)
 
 	i = 1;
 	stat = 0;
-	// if (ft_strncmp(cmd[1], "-n", 3) != 0)
-	// {
-	// 	i++;
-	// 	stat = 1;
-	// }
+	if (cmd[1] == NULL)
+		return ;
+	if (ft_strncmp(cmd[i], "-n", 3) == 0)
+	{
+		i++;
+		stat = 1;
+	}
 	while (cmd[i] != NULL)
 	{
 		if (i != 1 + stat)
 			printf(" ");
-		else
-			printf("%s", cmd[i]);
+		printf("%s", cmd[i]);
 		i++;
 	}
 	if (stat == 0)

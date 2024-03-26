@@ -214,6 +214,32 @@ char	*bulid_env(char *key_env, char *path)
 	return (ft_strdup(path));
 }
 
+int	between_sq(char *cmd, int j)
+{
+	int	i;
+	int	state;
+	int	state2;
+
+	i = 0;
+	state = 0;
+	state2 = 0;
+	while (cmd[i] != '\0' && i <= j)
+	{
+		printf("%d\n", state);
+		if (cmd[i] == '\"')
+			state++;
+		if (cmd[i] == '\'')
+		{
+			if (state % 2 == 0)
+				state2 = 1;
+			else
+				state2 = 0;
+		}
+		i++;
+	}
+	return (state2);
+}
+
 int	main(void)
 {
 	// char *here = ft_strdup("lolgg");
@@ -223,6 +249,6 @@ int	main(void)
 	// free(pth);
 	// printf("%s\n", cd);
 	// free(cd);
-	printf("%d\n", between_quo("lol\"hel\"lol\"lo\"gg", 9));
+	printf("%d\n", between_sq("\"\'hello\'", 2));
 	return (0);
 }

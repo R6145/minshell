@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 23:20:37 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/26 16:45:04 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/26 23:02:14 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int	excute_command(char **argv, t_minishell *mini, int x)
 	char	*command1;
 
 	argv[x] = env_handling(argv[x], mini);
+	argv[x] = cleanup_quotes(argv[x]);
 	command = ft_split(argv[x], ' ');
 	command1 = create_command(command[0], find_path(mini->envps));
 	if (command1 == NULL)
