@@ -6,13 +6,13 @@
 #    By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/03 18:19:18 by fmaqdasi          #+#    #+#              #
-#    Updated: 2024/03/24 21:27:54 by fmaqdasi         ###   ########.fr        #
+#    Updated: 2024/03/26 16:24:49 by fmaqdasi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME        := minishell
 CC          := cc
-CFLAGS       := -Wall -Wextra -Werror
+CFLAGS       := -Wall -Wextra -Werror -fsanitize=address -g3
 RM		    := rm -f
 INCLUDE = -Ilibft/
 LIBFT_DIR = libft/

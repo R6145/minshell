@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 21:48:19 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/24 23:34:27 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/26 17:09:54 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,23 +91,27 @@ int	cd(char **env, char *path)
 	return (0);
 }
 
-void	echo(t_minishell *mini, char **cmd, char *ocmd)
+void	echo(char **cmd)
 {
 	int	i;
+	int	stat;
 
-	// int	status;
-	(void)mini;
-	(void)ocmd;
 	i = 1;
+	stat = 0;
+	// if (ft_strncmp(cmd[1], "-n", 3) != 0)
+	// {
+	// 	i++;
+	// 	stat = 1;
+	// }
 	while (cmd[i] != NULL)
 	{
-		if (i != 1)
+		if (i != 1 + stat)
 			printf(" ");
 		else
 			printf("%s", cmd[i]);
 		i++;
 	}
-	if (ft_strncmp(cmd[1], "-n", 3) != 0)
+	if (stat == 0)
 		printf("\n");
 	return ;
 }

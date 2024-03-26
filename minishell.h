@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:12:56 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/24 23:26:25 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/26 17:44:31 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,17 +103,20 @@ char		*input_code_s(char *file, char *argv, int **pipe_fd,
 char		*create_dumbf_outs(char *argv, t_minishell *mini);
 int			check_cmd(char *cmd);
 int			check_cmd2(char *cmd);
-int			excuate(char *cmd, char **command, char *command1,
-				t_minishell *mini);
+int			excuate(char **command, char *command1, t_minishell *mini);
 int			excuate_s(char *command1, char **env);
 void		excute_code(char **argv, int **pipe_fd, t_minishell *mini, int x);
+char		*rp_cmd(char *cmd, char *key, char *des, int j);
+char		*rp_cmd_emp(char *cmd, char *key, int j);
+char		*enved_cmd(char *cmd, char *cmd1, int j, t_minishell *mini);
+char		*env_handling(char *cmd, t_minishell *mini);
 // buldiin
 void		exiting(char *command1, t_minishell *mini);
 void		get_pwd(void);
 void		update_opwd(char **env, int j);
 void		update_pwd(char **env);
 int			cd(char **env, char *path);
-void		echo(t_minishell *mini, char **cmd, char *ocmd);
+void		echo(char **cmd);
 // env
 void		env_copy(char **env, t_minishell *mini);
 void		print_env(char **env);

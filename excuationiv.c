@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 16:43:43 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/24 23:25:52 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/26 17:46:01 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,19 @@ int	excute_command_d(char *cmd, t_minishell *mini)
 	char	**command;
 	char	*command1;
 
+	cmd = env_handling(cmd, mini);
 	command = ft_split(cmd, ' ');
+	free(cmd);
 	command1 = create_command(command[0], find_path(mini->envps));
 	if (command1 == NULL)
 	{
 		ft_putstr_fd("Error: Unknown Command\n", 2);
 		free_split(command);
-		free(command1);
-		return (-1);
+		return (free(command1), (-1));
 	}
 	if (check_cmd(command1) == 1)
 	{
-		mini->temp[0] = excuate(cmd, command, command1, mini);
+		mini->temp[0] = excuate(command, command1, mini);
 		return (free(command1), free_split(command), mini->temp[0]);
 	}
 	if (execve(command1, command, mini->envps) == -1)
@@ -400,7 +401,7 @@ int	check_here_doc(char **cmd, int j)
 	return (0);
 }
 
-int	excuate(char *cmd, char **command, char *command1, t_minishell *mini)
+int	excuate(char **command, char *command1, t_minishell *mini)
 {
 	int	x;
 
@@ -416,7 +417,7 @@ int	excuate(char *cmd, char **command, char *command1, t_minishell *mini)
 	else if (ft_strncmp(command1, "cd", 3) == 0)
 		x = cd(mini->envps, command[1]);
 	else if (ft_strncmp(command1, "/usr/bin/echo", 13) == 0)
-		echo(mini, command,cmd);
+		echo(command);
 	return (x);
 }
 
@@ -467,4 +468,108 @@ void	exiting(char *command1, t_minishell *mini)
 	}
 	free(command);
 	free_split(command_s);
+}
+
+char	*rp_cmd(char *cmd, char *key, char *des, int j)
+{
+	int		i;
+	int		z;
+	char	*cmd1;
+
+	i = 0;
+	z = 0;
+	cmd1 = malloc(sizeof(char) * (ft_strlen(cmd) + ft_strlen(des) + 2));
+	while (i < j)
+	{
+		cmd1[i] = cmd[i];
+		i++;
+	}
+	j = i + ft_strlen(key) + 1;
+	while (des[z] != '\0')
+		cmd1[i++] = des[z++];
+	while (cmd[j] != '\0')
+		cmd1[i++] = cmd[j++];
+	cmd1[i] = '\0';
+	free(cmd);
+	cmd = cmd1;
+	return (cmd1);
+}
+
+char	*rp_cmd_emp(char *cmd, char *key, int j)
+{
+	int		i;
+	char	*cmd1;
+
+	i = 0;
+	cmd1 = malloc(sizeof(char) * (ft_strlen(cmd) + 2));
+	while (i < j)
+	{
+		cmd1[i] = cmd[i];
+		i++;
+	}
+	j = i + ft_strlen(key) + 1;
+	while (cmd[j] != '\0')
+		cmd1[i++] = cmd[j++];
+	cmd1[i] = '\0';
+	free(cmd);
+	cmd = cmd1;
+	return (cmd1);
+}
+
+char	*enved_cmd(char *cmd, char *cmd1, int j, t_minishell *mini)
+{
+	int		i;
+	char	*key_env;
+
+	i = 0;
+	if (ft_strncmp(cmd1, "?", 5) == 0)
+	{
+		key_env = ft_itoa(mini->exit_status);
+		cmd = rp_cmd(cmd, "?", key_env, j);
+		return (free(key_env), (cmd));
+	}
+	while (mini->envps[i] != NULL)
+	{
+		key_env = env_key(mini->envps[i]);
+		if (ft_strncmp(cmd1, key_env, ft_strlen(key_env) + 2) == 0)
+		{
+			cmd = rp_cmd(cmd, key_env, mini->envps[i] + ft_strlen(key_env) + 1,
+					j);
+			free(key_env);
+			return (cmd);
+		}
+		free(key_env);
+		i++;
+	}
+	cmd = rp_cmd_emp(cmd, cmd1, j);
+	return (cmd);
+}
+
+char	*env_handling(char *cmd, t_minishell *mini)
+{
+	int		i;
+	int		j;
+	char	*cmd_cleaned;
+
+	i = 0;
+	j = 0;
+	cmd_cleaned = malloc(sizeof(char) * (ft_strlen(cmd) + 1));
+	while ((int)ft_strlen(cmd) >= j && cmd[j] != '\0')
+	{
+		i = 0;
+		if (cmd[j] == '$')
+		{
+			j++;
+			while (cmd[j] != ' ' && cmd[j] != '\0' && cmd[j] != '\"'
+				&& cmd[j] != '\'')
+			{
+				cmd_cleaned[i++] = cmd[j++];
+			}
+			cmd_cleaned[i] = '\0';
+			cmd = enved_cmd(cmd, cmd_cleaned, j - i - 1, mini);
+		}
+		j++;
+	}
+	free(cmd_cleaned);
+	return (cmd);
 }

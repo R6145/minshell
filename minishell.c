@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:13:25 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/24 20:55:03 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/26 17:38:08 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	main(int argc, char **argv, char **envp)
 				mini.exit_status = WEXITSTATUS(status);
 			}
 		}
-		printf("%d\n", mini.exit_status);
+		// printf("%d\n", mini.exit_status);
 		j++;
 	}
 	free_mini(&mini);

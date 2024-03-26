@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 23:20:37 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/24 23:25:28 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/26 16:45:04 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,18 +88,17 @@ int	excute_command(char **argv, t_minishell *mini, int x)
 	char	**command;
 	char	*command1;
 
+	argv[x] = env_handling(argv[x], mini);
 	command = ft_split(argv[x], ' ');
 	command1 = create_command(command[0], find_path(mini->envps));
 	if (command1 == NULL)
 	{
 		ft_putstr_fd("Error: Unknown Command\n", 2);
-		free_split(command);
-		free(command1);
-		return (-1);
+		return (free_split(command), free(command1), (-1));
 	}
 	if (check_cmd(command1) == 1)
 	{
-		mini->temp[0] = excuate(argv[x], command, command1, mini);
+		mini->temp[0] = excuate(command, command1, mini);
 		return (free(command1), free_split(command), mini->temp[0]);
 	}
 	if (execve(command1, command, mini->envps) == -1)
