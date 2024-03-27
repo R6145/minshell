@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 16:43:43 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/27 00:24:04 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/27 13:53:36 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,18 +59,26 @@ int	open_file(t_minishell *mini, char **argv, int **pipe_fd)
 			free(temp);
 		}
 		else
-		{
-			free(file);
-			fd = here_doc(argv[mini->temp[0] - 1], mini, pipe_fd);
-			temp = argv[mini->temp[0] - 1];
-			argv[mini->temp[0] - 1] = cleanup_input(argv[mini->temp[0] - 1]);
-			free(temp);
-		}
+			fd = here_docking(file, argv, mini, pipe_fd);
 	}
 	else
 		fd = open(argv[mini->temp[0] - 2], O_RDONLY);
 	if (fd == -1)
 		free_error_fd(pipe_fd, mini);
+	return (fd);
+}
+
+int	here_docking(char *file, char **argv, t_minishell *mini, int **pipe_fd)
+{
+	int		fd;
+	char	*temp;
+
+	fd = 0;
+	free(file);
+	fd = here_doc(argv[mini->temp[0] - 1], mini, pipe_fd);
+	temp = argv[mini->temp[0] - 1];
+	argv[mini->temp[0] - 1] = cleanup_input(argv[mini->temp[0] - 1]);
+	free(temp);
 	return (fd);
 }
 
@@ -537,7 +545,7 @@ char	*enved_cmd(char *cmd, char *cmd1, int j, t_minishell *mini)
 		if (ft_strncmp(cmd1, key_env, ft_strlen(key_env) + 2) == 0)
 		{
 			cmd = rp_cmd(cmd, key_env, mini->envps[i] + ft_strlen(key_env) + 1,
-					j);
+				j);
 			free(key_env);
 			return (cmd);
 		}

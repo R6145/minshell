@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:12:56 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/27 00:19:29 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/27 13:52:45 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ void		parent(char **argv, int **pipe_fd, t_minishell *mini);
 int			pipex(int argc, char **argv, t_minishell *mini);
 char		**create_pipex_commands(char **cmd, int cmd_num);
 int			open_file(t_minishell *mini, char **argv, int **pipe_fd);
+int			here_docking(char *file, char **argv, t_minishell *mini,
+				int **pipe_fd);
 char		*get_filename(char *cmd);
 char		*cleanup_input(char *cmd);
 char		*cleanup_output(char *cmd);
