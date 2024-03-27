@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 16:43:43 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/27 14:17:50 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/27 22:33:46 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -545,7 +545,7 @@ char	*enved_cmd(char *cmd, char *cmd1, int j, t_minishell *mini)
 		if (ft_strncmp(cmd1, key_env, ft_strlen(key_env) + 2) == 0)
 		{
 			cmd = rp_cmd(cmd, key_env, mini->envps[i] + ft_strlen(key_env) + 1,
-				j);
+					j);
 			free(key_env);
 			return (cmd);
 		}
@@ -663,22 +663,25 @@ int	between(char *cmd, int j)
 
 int	between2(char *cmd, int j)
 {
-	int	i[4];
+	int	i[3];
 
 	i[0] = 0;
 	i[1] = 0;
 	i[2] = 0;
 	while (cmd[i[0]] != '\0' && i[0] <= j)
 	{
-		if (cmd[i[0]] == '\"')
+		if (cmd[i[0]] == '\"' && i[2] == 0)
 			i[1] = between_state(i[1]);
-		if (cmd[i[0]] == '\'')
+		if (cmd[i[0]] == '\'' && i[1] == 0)
 			i[2] = between_state(i[2]);
 		if (i[0] == j)
 		{
-			if ((i[2] == 1 || i[1] == 1))
+			if (cmd[i[0]] == '\'' && i[1] == 1)
+				return (1);
+			else if (cmd[i[0]] == '\"' && i[2] == 1)
+				return (1);
+			else
 				return (0);
-			return (1);
 		}
 		i[0]++;
 	}
