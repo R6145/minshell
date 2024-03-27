@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:12:56 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/27 13:52:45 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/27 14:48:28 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ char		*enved_cmd(char *cmd, char *cmd1, int j, t_minishell *mini);
 char		*env_handling(char *cmd, t_minishell *mini);
 int			between_sq(char *cmd, int j);
 int			between(char *cmd, int j);
+int			between2(char *cmd, int j);
 int			between_state(int state);
 // buldiin
 void		exiting(char *command1, t_minishell *mini);
@@ -131,4 +132,11 @@ void		add_env(char **env, char *path);
 void		env_add_emv(char **env, char *env_1);
 void		print_env_expo(char **env);
 void		remove_env(char **env, char *path);
+// error
+int			check_dq(char *cmd);
+int			check_sq(char *cmd);
+int			redir_check(char *cmd);
+int			redir_check2(char *cmd);
+int			redir_check3(char *cmd);
+int			error_checker(char *cmdl);
 #endif

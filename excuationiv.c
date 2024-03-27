@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 16:43:43 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/27 13:53:36 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/27 14:17:50 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -656,6 +656,30 @@ int	between(char *cmd, int j)
 		}
 		if (i[1] == 0 && i[2] == 0)
 			i[3] = 0;
+		i[0]++;
+	}
+	return (05);
+}
+
+int	between2(char *cmd, int j)
+{
+	int	i[4];
+
+	i[0] = 0;
+	i[1] = 0;
+	i[2] = 0;
+	while (cmd[i[0]] != '\0' && i[0] <= j)
+	{
+		if (cmd[i[0]] == '\"')
+			i[1] = between_state(i[1]);
+		if (cmd[i[0]] == '\'')
+			i[2] = between_state(i[2]);
+		if (i[0] == j)
+		{
+			if ((i[2] == 1 || i[1] == 1))
+				return (0);
+			return (1);
+		}
 		i[0]++;
 	}
 	return (05);

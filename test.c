@@ -240,6 +240,139 @@ int	between_sq(char *cmd, int j)
 	return (state2);
 }
 
+int	between_state(int state)
+{
+	if (state == 0)
+		state = 1;
+	else
+		state = 0;
+	return (state);
+}
+
+int	between(char *cmd, int j)
+{
+	int	i[4];
+
+	i[0] = 0;
+	i[1] = 0;
+	i[2] = 0;
+	i[3] = 0;
+	while (cmd[i[0]] != '\0' && i[0] <= j)
+	{
+		if (cmd[i[0]] == '\"')
+			i[1] = between_state(i[1]);
+		if (cmd[i[0]] == '\'')
+			i[2] = between_state(i[2]);
+		if (cmd[i[0]] == '\'' || cmd[i[0]] == '\"')
+			i[3]++;
+		if (i[0] == j)
+		{
+			if (i[3] != 1 && (i[2] == 1 || i[1] == 1))
+				return (0);
+			return (1);
+		}
+		if (i[1] == 0 && i[2] == 0)
+			i[3] = 0;
+		i[0]++;
+	}
+	return (05);
+}
+
+int	between2(char *cmd, int j)
+{
+	int	i[4];
+
+	i[0] = 0;
+	i[1] = 0;
+	i[2] = 0;
+	while (cmd[i[0]] != '\0' && i[0] <= j)
+	{
+		if (cmd[i[0]] == '\"')
+			i[1] = between_state(i[1]);
+		if (cmd[i[0]] == '\'')
+			i[2] = between_state(i[2]);
+		if (i[0] == j)
+		{
+			if ((i[2] == 1 || i[1] == 1))
+				return (0);
+			return (1);
+		}
+		i[0]++;
+	}
+	return (05);
+}
+
+int	check_dq(char *cmd)
+{
+	int	i;
+	int	counter;
+
+	i = 0;
+	counter = 0;
+	while (cmd[i] != '\0')
+	{
+		if (cmd[i] == '\"' && between2(cmd, i) == 0)
+			counter++;
+		i++;
+	}
+	printf("%d\n", counter);
+	if (counter % 2 == 0)
+		return (0);
+	else
+		return (1);
+	return (0);
+}
+
+int	redir_check(char *cmd)
+{
+	int	i;
+
+	i = 0;
+	while (cmd[i] != '\0')
+	{
+		if (cmd[i] == '>' && cmd[i + 1] == '>' && cmd[i + 2] == '>')
+			return (1);
+		if (cmd[i] == '<' && cmd[i + 1] == '<' && cmd[i + 2] == '<')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	redir_check2(char *cmd)
+{
+	int	i;
+
+	i = 0;
+	while (cmd[i] != '\0')
+	{
+		if (cmd[i] == '>')
+		{
+			i++;
+			if (cmd[i] == '>')
+				i++;
+			while (cmd[i] == ' ')
+				i++;
+			if (cmd[i] == '\0' || cmd[i] == '>' || cmd[i] == '<'
+				|| cmd[i] == '|')
+				return (1);
+		}
+		if (cmd[i] == '<')
+		{
+			i++;
+			if (cmd[i] == '<')
+				i++;
+			while (cmd[i] == ' ')
+				i++;
+			if (cmd[i] == '\0' || cmd[i] == '>' || cmd[i] == '<'
+				|| cmd[i] == '|')
+				return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
 int	main(void)
 {
 	// char *here = ft_strdup("lolgg");
@@ -249,6 +382,6 @@ int	main(void)
 	// free(pth);
 	// printf("%s\n", cd);
 	// free(cd);
-	printf("%d\n", between_sq("\"\'hello\'", 2));
+	printf("%d\n", redir_check2("echo gg >> | hi"));
 	return (0);
 }
