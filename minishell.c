@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:13:25 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/27 15:11:42 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/28 17:08:13 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 
 // 		return (1);
 // }
+
+int	g_signal_var = 0;
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -35,6 +37,7 @@ int	main(int argc, char **argv, char **envp)
 	j = 0;
 	inti(&mini);
 	env_copy(envp, &mini);
+	set_signals(&mini);
 	while (1 == 1)
 	{
 		inpt = readline("Enter text: ");
@@ -42,7 +45,6 @@ int	main(int argc, char **argv, char **envp)
 		{
 			add_history(inpt);
 			mini.number_of_commands = amount_of_commands(inpt);
-			// printf("%d\n", check_cmd2(inpt));
 			if (error_checker(inpt))
 			{
 				ft_putstr_fd("\n", 2);
@@ -174,4 +176,3 @@ int	main(int argc, char **argv, char **envp)
 // 	return (0);
 // }
 
-// do error handling

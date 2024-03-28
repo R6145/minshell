@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 16:43:43 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/27 22:33:46 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/28 17:10:14 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -343,7 +343,7 @@ int	here_doc_extra(char *cmd, int fd[2], t_minishell *mini, int **pipe_fd)
 	while (i >= 0)
 	{
 		cmd = readline(">");
-		if (ft_strncmp(cmd, names[i], ft_strlen(names[i])) == 0)
+		if (ft_strncmp(cmd, names[i], ft_strlen(names[i]) + 2) == 0)
 		{
 			if (i == 0)
 				break ;
@@ -545,7 +545,7 @@ char	*enved_cmd(char *cmd, char *cmd1, int j, t_minishell *mini)
 		if (ft_strncmp(cmd1, key_env, ft_strlen(key_env) + 2) == 0)
 		{
 			cmd = rp_cmd(cmd, key_env, mini->envps[i] + ft_strlen(key_env) + 1,
-					j);
+				j);
 			free(key_env);
 			return (cmd);
 		}

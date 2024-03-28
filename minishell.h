@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:12:56 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/27 21:04:44 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/28 12:35:25 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-# define MAX_COMMANDS 1000
+extern int	g_signal_var;
 
 typedef struct s_list2
 {
@@ -139,4 +139,10 @@ int			redir_check(char *cmd);
 int			redir_check2(char *cmd);
 int			redir_check3(char *cmd);
 int			error_checker(char *cmdl);
+// signal
+void		parent_signal(int sig);
+void		child_signal(int sig);
+void		heredoc_signal(int sig);
+void		signal_case(int sig);
+void		set_signals(t_minishell *mini);
 #endif
