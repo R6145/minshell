@@ -373,6 +373,34 @@ int	redir_check2(char *cmd)
 	return (0);
 }
 
+int	pipe_check(char *cmd)
+{
+	int	i;
+	int	flag;
+
+	i = 0;
+	flag = 0;
+	while (i < ft_strlen(cmd) && cmd[i] != '\0')
+	{
+		if (cmd[i] != '\0' && cmd[i] != '>' && cmd[i] != '<' && cmd[i] != '|'
+			&& cmd[i] != ' ')
+			flag = 1;
+		if (cmd[i] == '|')
+		{
+			i++;
+			if (flag == 0)
+				return (1);
+			while (cmd[i] == ' ' || cmd[i] == '>' || cmd[i] == '<')
+				i++;
+			if (cmd[i] == '\0' || cmd[i] == '|')
+				return (1);
+			flag = 0;
+		}
+		i++;
+	}
+	return (0);
+}
+
 int	main(void)
 {
 	// char *here = ft_strdup("lolgg");
@@ -382,6 +410,6 @@ int	main(void)
 	// free(pth);
 	// printf("%s\n", cd);
 	// free(cd);
-	printf("%d\n", redir_check2("echo gg >> | hi"));
+	printf("%d\n", pipe_check("ls|ra|<<"));
 	return (0);
 }

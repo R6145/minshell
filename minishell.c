@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:13:25 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/28 17:08:13 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/29 22:41:54 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	main(int argc, char **argv, char **envp)
 					else
 					{
 						mini.commands = create_pipex_commands(x,
-							mini.number_of_commands);
+								mini.number_of_commands);
 						freeall(x, mini.number_of_commands);
 						free(inpt);
 						// printf("%d\n", mini.number_of_commands);
@@ -77,13 +77,13 @@ int	main(int argc, char **argv, char **envp)
 							&mini);
 					}
 				}
-				if (inpt != NULL)
-					free(inpt);
 				waitpid(pd, &status, 0);
 				mini.exit_status = WEXITSTATUS(status);
 			}
 		}
 		// printf("%d\n", mini.exit_status);
+		if (inpt != NULL)
+			free(inpt);
 		j++;
 	}
 	free_mini(&mini);
@@ -175,4 +175,3 @@ int	main(int argc, char **argv, char **envp)
 // 	}
 // 	return (0);
 // }
-

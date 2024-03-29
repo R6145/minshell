@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:12:56 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/28 12:35:25 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/29 22:28:46 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <signal.h>
 
 extern int	g_signal_var;
 
@@ -139,6 +140,7 @@ int			redir_check(char *cmd);
 int			redir_check2(char *cmd);
 int			redir_check3(char *cmd);
 int			error_checker(char *cmdl);
+int			pipe_check(char *cmd);
 // signal
 void		parent_signal(int sig);
 void		child_signal(int sig);

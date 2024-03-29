@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 16:43:43 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/28 17:10:14 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/29 22:06:07 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,28 +17,25 @@ int	excute_command_d(char *cmd, t_minishell *mini)
 	char	**command;
 	char	*command1;
 
+	command1 = NULL;
 	cmd = env_handling(cmd, mini);
 	cmd = cleanup_quotes(cmd);
 	command = ft_split(cmd, ' ');
 	free(cmd);
+	if (command[0] == NULL)
+		return (free_split(command), (-1));
 	command1 = create_command(command[0], find_path(mini->envps));
 	if (command1 == NULL)
-	{
-		ft_putstr_fd("Error: Unknown Command\n", 2);
-		return (free_split(command), free(command1), (-1));
-	}
+		return (ft_putstr_fd("Error: Unknown Command\n", 2),
+			free_split(command), free(command1), (-1));
 	if (check_cmd(command1) == 1)
 	{
 		mini->temp[0] = excuate(command, command1, mini);
 		return (free(command1), free_split(command), mini->temp[0]);
 	}
 	if (execve(command1, command, mini->envps) == -1)
-	{
 		ft_putstr_fd("Error: Command unable to excute\n", 2);
-		free_split(command);
-		free(command1);
-	}
-	return (-1);
+	return (free_split(command), free(command1), (-1));
 }
 
 int	open_file(t_minishell *mini, char **argv, int **pipe_fd)
@@ -351,13 +348,11 @@ int	here_doc_extra(char *cmd, int fd[2], t_minishell *mini, int **pipe_fd)
 		}
 		write(fd[1], cmd, ft_strlen(cmd));
 		write(fd[1], "\n", 1);
+		free(cmd);
 	}
-	close(fd[1]);
-	free_split(names);
-	free_mini(mini);
-	close_pipe(pipe_fd, mini->temp[1]);
-	free_pipe(pipe_fd);
-	exit(0);
+	return ((free(cmd), close(fd[1]), free_split(names), free_mini(mini),
+			close_pipe(pipe_fd, mini->temp[1])), free_pipe(pipe_fd), exit(0),
+		0);
 }
 
 pid_t	here_doc_f(int fd[2], t_minishell *mini, int **pipe_fd)
@@ -545,7 +540,7 @@ char	*enved_cmd(char *cmd, char *cmd1, int j, t_minishell *mini)
 		if (ft_strncmp(cmd1, key_env, ft_strlen(key_env) + 2) == 0)
 		{
 			cmd = rp_cmd(cmd, key_env, mini->envps[i] + ft_strlen(key_env) + 1,
-				j);
+					j);
 			free(key_env);
 			return (cmd);
 		}
@@ -695,4 +690,28 @@ int	between_state(int state)
 	else
 		state = 0;
 	return (state);
+}
+
+void	empty_line(char *command1, t_minishell *mini)
+{
+	char	*command;
+	char	*command2;
+	char	**command_s;
+
+	command = cleanup_input(command1);
+	command2 = command;
+	create_dumby_files(command, NULL, NULL);
+	command = cleanup_output(command);
+	free(command2);
+	command_s = ft_split(command, ' ');
+	if (command_s[0] == NULL)
+	{
+		free(command);
+		free(command1);
+		free_split(command_s);
+		free_mini(mini);
+		exit(0);
+	}
+	free(command);
+	free_split(command_s);
 }
