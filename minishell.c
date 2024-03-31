@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:13:25 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/29 22:41:54 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/03/31 21:06:18 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,11 @@ int	main(int argc, char **argv, char **envp)
 	inti(&mini);
 	env_copy(envp, &mini);
 	set_signals(&mini);
-	while (1 == 1)
+	while (g_signal_var != 4)
 	{
+		g_signal_var = 1;
 		inpt = readline("Enter text: ");
-		if (inpt[0] != '\0')
+		if (inpt != NULL && inpt[0] != '\0')
 		{
 			add_history(inpt);
 			mini.number_of_commands = amount_of_commands(inpt);
