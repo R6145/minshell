@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:13:25 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/31 21:06:18 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/04/03 13:12:52 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,9 @@ int	main(int argc, char **argv, char **envp)
 	while (g_signal_var != 4)
 	{
 		g_signal_var = 1;
-		inpt = readline("Enter text: ");
+		inpt = readline("minishell: ");
+		if (g_signal_var == 4)
+			return (free_mini(&mini), 0);
 		if (inpt != NULL && inpt[0] != '\0')
 		{
 			add_history(inpt);
@@ -70,7 +72,7 @@ int	main(int argc, char **argv, char **envp)
 					else
 					{
 						mini.commands = create_pipex_commands(x,
-								mini.number_of_commands);
+							mini.number_of_commands);
 						freeall(x, mini.number_of_commands);
 						free(inpt);
 						// printf("%d\n", mini.number_of_commands);
