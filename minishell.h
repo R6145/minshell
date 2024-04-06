@@ -142,9 +142,6 @@ int			redir_check3(char *cmd);
 int			error_checker(char *cmdl);
 int			pipe_check(char *cmd);
 // signal
-void		parent_signal(int sig);
-void		child_signal(int sig);
-void		heredoc_signal(int sig);
-void		signal_case(int sig);
-void		set_signals(t_minishell *mini);
+void		signal_handler_parent(int signum);
+void		close_g_signal_var(void);
 #endif

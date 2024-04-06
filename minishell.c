@@ -37,13 +37,15 @@ int	main(int argc, char **argv, char **envp)
 	j = 0;
 	inti(&mini);
 	env_copy(envp, &mini);
-	set_signals(&mini);
+	signal(SIGINT, signal_handler_parent);
+	signal(SIGQUIT, signal_handler_parent);
 	while (g_signal_var != 4)
 	{
-		g_signal_var = 1;
+		g_signal_var = -1;
 		inpt = readline("minishell: ");
-		if (g_signal_var == 4)
-			return (free_mini(&mini), 0);
+		// ft_putstr_fd(ft_itoa(g_signal_var),2);
+		if (inpt == NULL)
+			return (ft_putstr_fd("\n", 2), free_mini(&mini), 0);
 		if (inpt != NULL && inpt[0] != '\0')
 		{
 			add_history(inpt);
@@ -59,6 +61,7 @@ int	main(int argc, char **argv, char **envp)
 			}
 			else
 			{
+				g_signal_var = 2;
 				pd = fork();
 				if (pd == 0)
 				{

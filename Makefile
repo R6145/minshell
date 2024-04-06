@@ -12,7 +12,7 @@
 
 NAME        := minishell
 CC          := cc 
-CFLAGS       := -Wall -Wextra -Werror -fsanitize=address -g3
+CFLAGS       := -Wall -Wextra -Werror
 RM		    := rm -f
 INCLUDE = -Ilibft/
 LIBFT_DIR = libft/

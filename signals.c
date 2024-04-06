@@ -12,77 +12,52 @@
 
 #include "minishell.h"
 
-void	parent_signal(int sig)
+void	close_g_signal_var(void)
 {
-	if (sig == SIGINT)
-	{
-		rl_on_new_line();
-		ft_putstr_fd(" \b\b\n", 2);
-		// g_stdin = 1;
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-		// g_signal_var = 99;
-		// ft_putstr_fd("\nminishell: ", 2);
-		// rl_on_new_line();
-		// if (waitpid(-1, NULL, WNOHANG) != -1)
-		// 	return ;
-		// rl_redisplay();
-		return ;
-	}
-	else if (sig == SIGQUIT)
-	{
-		g_signal_var = 4;
-		ft_putstr_fd("\n", 2);
-		// rl_on_new_line();
-		// rl_redisplay();
-		return ;
-	}
+	close(g_signal_var);
+	g_signal_var = 0;
 }
 
-// void	child_signal(int sig)
-// {
-// 	if (sig == SIGINT)
-// 	{
-// 		ft_putstr_fd("\n", 1);
-// 		rl_on_new_line();
-// 		g_signal_var = 130;
-// 		return ;
-// 	}
-// 	else if (sig == SIGQUIT)
-// 	{
-// 		g_signal_var = 131;
-// 		ft_putstr_fd("gg\n", 1);
-// 		return ;
-// 	}
-// }
-
-void	heredoc_signal(int sig)
+static void	heredoc_prompt(void)
 {
-	if (sig == SIGINT)
-	{
-		close(0);
-		ft_putstr_fd("\n", 2);
-		// g_signal_var = 1;
-	}
+	close(g_signal_var);
+	g_signal_var = -3;
+
 }
 
-void	signal_case(int sig)
+static void	command_prompt(void)
 {
-	// if (g_signal_var == 3)
-	// 	child_signal(sig);
-	if (g_signal_var == 2)
-		heredoc_signal(sig);
-	else if (g_signal_var == 1)
-		parent_signal(sig);
+	g_signal_var = -2;
 }
 
-void	set_signals(t_minishell *mini)
+static void	minishell_prompt(void)
 {
-	(void)mini;
-	signal(SIGINT, signal_case);
-	signal(SIGQUIT, signal_case);
-	// if (g_signal_var != 1)
-	// 	mini->exit_status = g_signal_var;
+	rl_on_new_line();
+	ft_putstr_fd(" \b\b\n",2);
 	g_signal_var = 1;
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
+
+void	signal_handler_parent(int signum)
+{
+	if (signum == SIGINT)
+	{
+		if (g_signal_var == -1 || g_signal_var == 1)
+			minishell_prompt();
+		else if (g_signal_var == 2)
+			command_prompt();
+		else
+			heredoc_prompt();
+	}
+	if (signum == SIGQUIT && (g_signal_var == -1 || g_signal_var == 1))
+	{
+	}
+	if (signum == SIGQUIT && g_signal_var == -2)
+	{
+		ft_putstr_fd("Quit:",2);
+		ft_putstr_fd("\n",2);
+		g_signal_var = -4;
+	}
 }

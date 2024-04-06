@@ -334,14 +334,13 @@ int	here_doc_extra(char *cmd, int fd[2], t_minishell *mini, int **pipe_fd)
 	char	**names;
 
 	i = 0;
-	close(fd[0]);
 	names = here_maker(cmd);
 	i = amount_of_arg(names) - 1;
-	g_signal_var = 2;
+	g_signal_var = fd[1];
 	while (i >= 0)
 	{
 		cmd = readline(">");
-		if (cmd == NULL)
+		if (cmd == NULL || g_signal_var == -3)
 			break ;
 		if (ft_strncmp(cmd, names[i], ft_strlen(names[i]) + 2) == 0)
 		{
@@ -353,7 +352,7 @@ int	here_doc_extra(char *cmd, int fd[2], t_minishell *mini, int **pipe_fd)
 		write(fd[1], "\n", 1);
 		free(cmd);
 	}
-	return ((free(cmd), close(fd[1]), free_split(names), free_mini(mini),
+	return ((free(cmd), close(fd[1]), close(fd[0]), free_split(names), free_mini(mini),
 			close_pipe(pipe_fd, mini->temp[1])), free_pipe(pipe_fd), exit(0),
 		0);
 }
