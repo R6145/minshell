@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:12:56 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/03/29 22:28:46 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/04/07 20:05:09 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <signal.h>
 
 extern int	g_signal_var;
 
@@ -33,10 +33,6 @@ typedef struct s_list2
 	char	**commands;
 	char	**envps;
 	int		number_of_commands;
-	// int		input[1000];
-	// int		inp_type[1000];
-	// int		output[1000];
-	// int		out_type[1000];
 	int		temp[3];
 	int		exit_status;
 }			t_minishell;
@@ -51,9 +47,6 @@ int			*cut_pos(char *line);
 int			between_quo(char *line, int x);
 void		between_quo_extra(char line, int *flag, int *flag2, char s);
 int			amount_of_arg(char **cmd);
-// void		check_for_ipop(t_minishell *mini, char **cmd);
-// void		check_for_ipop2(t_minishell *mini, char **cmd, int i);
-// void		ipop_type(t_minishell *mini, char *line, int j, int i);
 char		*cleanup_quotes(char *cmd);
 // freeing functions
 void		freeall(char **st, int j);
@@ -131,6 +124,7 @@ void		print_env(char **env);
 char		*env_key(char *cmd);
 void		add_env(char **env, char *path);
 void		env_add_emv(char **env, char *env_1);
+char		*bulid_env(char *key_env, char *path);
 void		print_env_expo(char **env);
 void		remove_env(char **env, char *path);
 // error
