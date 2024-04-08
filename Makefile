@@ -12,7 +12,7 @@
 
 NAME        := minishell
 CC          := cc 
-CFLAGS       := -Wall -Wextra -Werror -fsanitize=address -g3
+CFLAGS       := -Wall -Wextra -Werror
 RM		    := rm -f
 INCLUDE = -Ilibft/
 LIBFT_DIR = libft/
@@ -20,15 +20,24 @@ LIBFT = libft/libft.a
 
 SRCS        := 				parscing.c \
                             parscingii.c \
+							cleanupio.c \
+							cleanupio2.c \
+							cleanupio3.c \
 							excuation.c \
 							excuationii.c \
 							excuationiii.c \
 							excuationiv.c \
+							excuationv.c \
 							parscingiii.c \
 							mini_util.c \
+							mini_util2.c \
+							mini_util3.c \
+							heredoc.c \
 							env.c \
+							env2.c \
 							bulidin.c \
 							error.c \
+							error2.c \
 							signals.c \
 							
 
