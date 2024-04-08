@@ -6,7 +6,7 @@
 #    By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/03 18:19:18 by fmaqdasi          #+#    #+#              #
-#    Updated: 2024/04/07 20:04:00 by fmaqdasi         ###   ########.fr        #
+#    Updated: 2024/04/08 16:28:12 by fmaqdasi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,20 +24,11 @@ SRCS        := 				parscing.c \
 							excuationii.c \
 							excuationiii.c \
 							excuationiv.c \
-							excuationv.c \
-							cleanupio.c \
-							cleanupio2.c \
-							cleanupio3.c \
 							parscingiii.c \
 							mini_util.c \
-							mini_util2.c \
-							mini_util3.c \
 							env.c \
-							env2.c \
 							bulidin.c \
 							error.c \
-							error2.c \
-							heredoc.c \
 							signals.c \
 							
 
