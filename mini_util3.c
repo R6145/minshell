@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 19:51:37 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/04/07 19:59:00 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/04/14 16:21:24 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,18 @@ void	empty_line(char *command1, t_minishell *mini)
 	}
 	free(command);
 	free_split(command_s);
+}
+
+char	*tab_to_space(char *cmd)
+{
+	int	i;
+
+	i = 0;
+	while (cmd[i] != '\0')
+	{
+		if (cmd[i] >= 9 && cmd[i] <= 13)
+			cmd[i] = ' ';
+		i++;
+	}
+	return (cmd);
 }

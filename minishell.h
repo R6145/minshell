@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:12:56 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/04/07 20:05:09 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/04/14 16:21:41 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int			between_quo(char *line, int x);
 void		between_quo_extra(char line, int *flag, int *flag2, char s);
 int			amount_of_arg(char **cmd);
 char		*cleanup_quotes(char *cmd);
+char		*tab_to_space(char *cmd);
 // freeing functions
 void		freeall(char **st, int j);
 void		free_pipe(int **fd);

@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:13:25 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/04/07 20:35:11 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/04/14 16:32:11 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,10 @@ static void	minishell_choice(t_minishell *mini, char *inpt)
 		add_history(inpt);
 		mini->number_of_commands = amount_of_commands(inpt);
 		if (error_checker(inpt))
+		{
 			ft_putstr_fd("\n", 2);
+			mini->exit_status = 2;
+		}
 		else if (mini->number_of_commands == 1 && check_cmd2(inpt) == 1)
 		{
 			exiting(inpt, mini);
@@ -79,6 +82,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		g_signal_var = -1;
 		inpt = readline("minishell: ");
+		tab_to_space(inpt);
 		minishell_choice(&mini, inpt);
 	}
 	free_mini(&mini);
