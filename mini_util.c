@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 20:07:04 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/04/07 19:49:21 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/04 18:18:08 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	inti(t_minishell *mini)
 	mini->temp[1] = -1;
 	mini->temp[2] = -1;
 	mini->exit_status = 0;
+	mini->commands = NULL;
 }
 
 void	exiting(char *command1, t_minishell *mini)
@@ -109,7 +110,7 @@ char	*enved_cmd(char *cmd, char *cmd1, int j, t_minishell *mini)
 		if (ft_strncmp(cmd1, key_env, ft_strlen(key_env) + 2) == 0)
 		{
 			cmd = rp_cmd(cmd, key_env, mini->envps[i] + ft_strlen(key_env) + 1,
-					j);
+				j);
 			free(key_env);
 			return (cmd);
 		}

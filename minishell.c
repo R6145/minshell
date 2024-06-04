@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:13:25 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/04/14 16:32:11 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/04 19:06:26 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ static void	minishell_choice(t_minishell *mini, char *inpt)
 		{
 			exiting(inpt, mini);
 			mini->exit_status = excuate_s(inpt, mini->envps);
+			inpt = NULL;
 		}
 		else
 			minishell_exc(mini, inpt);
