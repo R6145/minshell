@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:38:24 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/04/07 19:59:43 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/05 17:45:48 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,30 @@ void	remove_env(char **env, char *path)
 			return ;
 		}
 		free(key_env);
+		i++;
+	}
+}
+
+void	update_lvl_env(char **env)
+{
+	int		i;
+	int		j;
+	char	*temp;
+
+	i = 0;
+	while (env[i] != NULL)
+	{
+		if (ft_strncmp(env[i], "SHLVL=", 6) == 0)
+		{
+			temp = env[i] + 6;
+			j = ft_atoi(temp);
+			j++;
+			free(env[i]);
+			temp = ft_itoa(j);
+			env[i] = ft_strjoin("SHLVL=", temp);
+			free(temp);
+			return ;
+		}
 		i++;
 	}
 }

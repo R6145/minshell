@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:38:24 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/04/07 19:59:56 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/05 17:17:50 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	env_copy(char **env, t_minishell *mini)
 		i--;
 	}
 	mini->envps = env_c;
+	update_lvl_env(mini->envps);
 }
 
 void	print_env(char **env)

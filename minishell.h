@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:12:56 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/04/14 16:21:41 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/05 15:40:59 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ void		env_add_emv(char **env, char *env_1);
 char		*bulid_env(char *key_env, char *path);
 void		print_env_expo(char **env);
 void		remove_env(char **env, char *path);
+void		update_lvl_env(char **env);
 // error
 int			check_dq(char *cmd);
 int			check_sq(char *cmd);

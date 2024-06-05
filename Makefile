@@ -6,7 +6,7 @@
 #    By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/03 18:19:18 by fmaqdasi          #+#    #+#              #
-#    Updated: 2024/04/07 20:04:00 by fmaqdasi         ###   ########.fr        #
+#    Updated: 2024/06/05 15:43:33 by fmaqdasi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,7 @@ LIBS = -L$(LIBFT_DIR) $(LIBFT)
 	
     
 ${NAME}:	${OBJS} ${OBJSNAME} $(LIBFT)
-			@${CC} ${CFLAGS} $(INCLUDES) ${OBJS} ${OBJSNAME} $(LIBS) -o ${NAME} -lreadline 
+			@${CC} ${CFLAGS} $(INCLUDES) ${OBJS} ${OBJSNAME} $(LIBS) -o ${NAME} -lreadline
 			@echo "\033[0;32mMINISHELL compiled successfully"
 
 $(LIBFT):
