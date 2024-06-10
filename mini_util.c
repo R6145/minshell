@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 20:07:04 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/04 18:18:08 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/10 15:45:51 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	exiting(char *command1, t_minishell *mini)
 	{
 		free(command);
 		free(command1);
+		rl_clear_history();
 		free_split(command_s);
 		free_mini(mini);
 		exit(0);

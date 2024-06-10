@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:13:25 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/05 17:59:11 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/10 17:20:47 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static void	minishell_exc(t_minishell *mini, char *inpt)
 		mini->number_of_commands = amount_of_commands(inpt);
 		if (mini->number_of_commands == 1)
 		{
+			freeall(x, mini->number_of_commands);
 			single_command(inpt, mini);
 		}
 		else

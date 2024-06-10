@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 21:48:19 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/04 19:18:20 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/10 17:05:56 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,10 @@ void	echo(char **cmd)
 	i = 1;
 	stat = 0;
 	if (cmd[1] == NULL)
+	{
+		printf("\n");
 		return ;
+	}
 	if (ft_strncmp(cmd[i], "-n", 3) == 0)
 	{
 		i++;
