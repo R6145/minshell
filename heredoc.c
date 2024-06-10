@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 19:36:43 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/10 18:16:20 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/10 19:04:14 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	here_doc_extra(char *cmd, int fd[2], t_minishell *mini, int **pipe_fd)
 	}
 	return ((free(cmd), close(fd[1]), close(fd[0]), free_split(names),
 			free_mini(mini), close_pipe(pipe_fd, mini->temp[1])),
-		free_pipe(pipe_fd), exit(0), 0);
+		free_pipe(pipe_fd), free(mini->tempc), exit(0), 0);
 }
 
 pid_t	here_doc_f(int fd[2], t_minishell *mini, int **pipe_fd)

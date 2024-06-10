@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 16:43:43 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/10 17:13:05 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/10 19:03:56 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	single_command(char *argv, t_minishell *mini)
 	file = get_filename(argv);
 	if (file != NULL)
 	{
+		mini->tempc = file;
 		temp = input_code_s(file, argv, NULL, mini);
 		if (mini->temp[0] == -1)
 			return (free(file), free_error_fd(NULL, mini), exit(14));

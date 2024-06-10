@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 22:24:04 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/04/07 19:57:58 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/10 19:10:33 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,8 +141,8 @@ char	*create_dumbf_outs(char *argv, t_minishell *mini)
 		fd = open("/dev/tty", O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (fd == -1)
 		free_error_fd(NULL, mini);
-	dup2(fd, STDOUT_FILENO);
 	if (dup2(fd, STDOUT_FILENO) == -1)
 		free_error_dup(NULL, mini, fd);
+	close(fd);
 	return (argv);
 }

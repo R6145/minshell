@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:12:56 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/05 15:40:59 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/10 19:04:27 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_list2
 	char	**envps;
 	int		number_of_commands;
 	int		temp[3];
+	char	*tempc;
 	int		exit_status;
 }			t_minishell;
 
