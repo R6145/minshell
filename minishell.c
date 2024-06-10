@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:13:25 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/10 17:20:47 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/10 18:38:42 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,9 @@ int	main(int argc, char **argv, char **envp)
 	{
 		g_signal_var = -1;
 		inpt = readline("minishell: ");
+		if (inpt == NULL && g_signal_var == -1)
+			return (printf("exit\n"), exiting(ft_strdup("exit"), &mini),
+				free_mini(&mini), 0);
 		if (inpt != NULL)
 		{
 			tab_to_space(inpt);

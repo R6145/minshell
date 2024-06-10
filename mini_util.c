@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 20:07:04 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/10 15:45:51 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/10 18:19:20 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ char	*enved_cmd(char *cmd, char *cmd1, int j, t_minishell *mini)
 		if (ft_strncmp(cmd1, key_env, ft_strlen(key_env) + 2) == 0)
 		{
 			cmd = rp_cmd(cmd, key_env, mini->envps[i] + ft_strlen(key_env) + 1,
-				j);
+			j);
 			free(key_env);
 			return (cmd);
 		}
