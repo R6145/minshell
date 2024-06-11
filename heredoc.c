@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 19:36:43 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/10 19:04:14 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/11 14:21:25 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ char	**here_maker(char *cmd)
 	int		i;
 	int		j;
 	char	**names;
+	char	*temp;
 
 	i = 0;
 	j = ft_strlen(cmd) - 1;
@@ -27,7 +28,10 @@ char	**here_maker(char *cmd)
 		{
 			j--;
 			if (cmd[j] == '<')
-				names[i++] = get_filename_pos(cmd, j + 1);
+			{
+				temp = get_filename_pos(cmd, j + 1);
+				names[i++] = cleanup_quotes(temp);
+			}
 		}
 		j--;
 	}
