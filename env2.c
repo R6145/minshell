@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:38:24 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/17 17:38:33 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/17 20:14:22 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ void	update_lvl_env(char **env)
 		}
 		i++;
 	}
+	add_env(env,"SHLVL=1");
 }
 
 void	add_remove_all_env(char **env, char **arg, int flag)

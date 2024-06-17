@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:12:56 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/17 16:17:39 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/17 20:08:18 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ char		*enved_cmd(char *cmd, char *cmd1, int j, t_minishell *mini);
 char		*env_handling(char *cmd, t_minishell *mini);
 int			between_sq(char *cmd, int j);
 int			between(char *cmd, int j);
+int			between_extra(char *cmd, int i0, int i1, int i2);
 int			between2(char *cmd, int j);
 int			between_state(int state);
 // buldiin
