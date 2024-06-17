@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:38:24 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/05 17:45:48 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/17 17:38:33 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ void	add_env(char **env, char *path)
 		free(key_env);
 		i++;
 	}
-	env_add_emv(env, bulid_env(key, path));
+	if (i <= 2950)
+		env_add_emv(env, bulid_env(key, path));
 }
 
 void	remove_env(char **env, char *path)
@@ -96,5 +97,30 @@ void	update_lvl_env(char **env)
 			return ;
 		}
 		i++;
+	}
+}
+
+void	add_remove_all_env(char **env, char **arg, int flag)
+{
+	int	i;
+
+	i = 1;
+	if (flag == 0)
+	{
+		if (arg[1] == NULL)
+			return (print_env_expo(env));
+		while (arg[i] != NULL)
+		{
+			add_env(env, arg[i]);
+			i++;
+		}
+	}
+	else if (flag == 1)
+	{
+		while (arg[i] != NULL)
+		{
+			remove_env(env, arg[i]);
+			i++;
+		}
 	}
 }

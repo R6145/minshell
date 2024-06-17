@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:38:24 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/05 17:17:50 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/17 17:32:42 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	env_copy(char **env, t_minishell *mini)
 	char	**env_c;
 
 	i = amount_of_arg(env) - 1;
-	env_c = (char **)malloc(sizeof(char *) * (i + 1000));
+	env_c = (char **)malloc(sizeof(char *) * (i + 3000));
 	if (env_c == NULL)
 		exit(2);
 	env_c[i + 1] = NULL;

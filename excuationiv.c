@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 16:43:43 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/10 19:03:56 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/17 17:52:21 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ int	excuate(char **command, char *command1, t_minishell *mini)
 	if ((ft_strncmp(command1, "/usr/bin/env", 12) == 0))
 		print_env(mini->envps);
 	else if (ft_strncmp(command1, "export", 7) == 0)
-		add_env(mini->envps, command[1]);
+		add_remove_all_env(mini->envps, command, 0);
 	else if (ft_strncmp(command1, "unset", 6) == 0)
-		remove_env(mini->envps, command[1]);
+		add_remove_all_env(mini->envps, command, 1);
 	else if (ft_strncmp(command1, "/usr/bin/pwd", 12) == 0)
 		get_pwd();
 	else if (ft_strncmp(command1, "cd", 3) == 0)
@@ -104,9 +104,9 @@ int	excuate_s(char *command1, char **env)
 	free(command2);
 	command_s = ft_split(command, ' ');
 	if (ft_strncmp(command_s[0], "export", 7) == 0)
-		add_env(env, command_s[1]);
+		add_remove_all_env(env, command_s, 0);
 	else if (ft_strncmp(command_s[0], "unset", 6) == 0)
-		remove_env(env, command_s[1]);
+		add_remove_all_env(env, command_s, 1);
 	else if (ft_strncmp(command_s[0], "cd", 3) == 0)
 		x = cd(env, command_s[1]);
 	free(command);

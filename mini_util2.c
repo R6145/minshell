@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 19:49:49 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/04/07 19:50:48 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/17 18:48:09 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,13 @@ char	*env_handling(char *cmd, t_minishell *mini)
 	while ((int)ft_strlen(cmd) >= j && cmd[j] != '\0')
 	{
 		i = 0;
-		if (cmd[j] == '$' && between_sq(cmd, j) == 0)
+		if (cmd[j] == '$' && between_sq(cmd, j) == 0 && cmd[j + 1] != '\0'
+			&& cmd[j + 1] != ' ' && cmd[j + 1] != '\"')
 		{
 			j++;
 			while (cmd[j] != ' ' && cmd[j] != '\0' && cmd[j] != '\"'
 				&& cmd[j] != '\'')
-			{
 				cmd_cleaned[i++] = cmd[j++];
-			}
 			cmd_cleaned[i] = '\0';
 			cmd = enved_cmd(cmd, cmd_cleaned, j - i - 1, mini);
 		}
