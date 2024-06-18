@@ -6,7 +6,7 @@
 #    By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/03 18:19:18 by fmaqdasi          #+#    #+#              #
-#    Updated: 2024/06/10 15:29:22 by fmaqdasi         ###   ########.fr        #
+#    Updated: 2024/06/18 16:50:42 by fmaqdasi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SRCS        := 				parscing.c \
 							mini_util3.c \
 							env.c \
 							env2.c \
+							env_util.c \
 							bulidin.c \
 							error.c \
 							error2.c \
