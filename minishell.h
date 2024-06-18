@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:12:56 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/18 17:35:30 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/18 19:01:09 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ void		print_env_expo(char **env);
 void		remove_env(char **env, char *path);
 void		update_lvl_env(char **env);
 void		quicksort(char **arr, int low, int high);
+int			export_checker(char **argv);
 // error
 int			check_dq(char *cmd);
 int			check_sq(char *cmd);

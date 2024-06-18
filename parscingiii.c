@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 17:55:08 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/04 19:53:32 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/18 19:06:35 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,28 @@ int	check_cmd2(char *cmd)
 	if (ft_strncmp(command_s[0], "cd", 6) == 0)
 		return (free(command), free_split(command_s), 1);
 	return (free(command), free_split(command_s), 0);
+}
+
+int	export_checker(char **argv)
+{
+	int	i;
+	int	j;
+
+	j = 0;
+	i = 0;
+	while (argv[i] != NULL)
+	{
+		j = 0;
+		while (argv[i][j] != '\0')
+		{
+			if (!((argv[i][j] >= 48 && argv[i][j] <= 57) || argv[i][j] == '_'
+					|| ft_isalpha(argv[i][j]) == 1))
+				return (printf("%s Not a Valid Identifer\n", argv[i]), 0);
+			if ((argv[i][j] >= 48 && argv[i][j] <= 57) && j == 0)
+				return (printf("%s Not a Valid Identifer\n", argv[i]), 0);
+			j++;
+		}
+		i++;
+	}
+	return (1);
 }

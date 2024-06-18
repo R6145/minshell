@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:38:24 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/18 17:35:44 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/18 19:05:03 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ void	add_remove_all_env(char **env, char **arg, int flag)
 	{
 		if (arg[1] == NULL)
 			return (print_env_expo(env));
+		if (export_checker(arg) == 0)
+			return ;
 		while (arg[i] != NULL)
 		{
 			add_env(env, arg[i]);
