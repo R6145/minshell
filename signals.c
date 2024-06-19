@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:03:46 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/10 18:32:59 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/19 15:54:35 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,15 @@ void	close_g_signal_var(void)
 
 static void	heredoc_prompt(void)
 {
+	rl_on_new_line();
+	ft_putstr_fd(" \b\b\n", 2);
+	g_signal_var = 1;
 	close(g_signal_var);
-	g_signal_var = -3;
+	close(0);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+	g_signal_var = 130;
 }
 
 static void	command_prompt(void)
@@ -33,7 +40,7 @@ static void	minishell_prompt(void)
 {
 	rl_on_new_line();
 	ft_putstr_fd(" \b\b\n", 2);
-	g_signal_var = 1;
+	g_signal_var = -1;
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
