@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:38:24 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/18 19:05:03 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:16:28 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	update_lvl_env(char **env)
 	add_env(env, "SHLVL=1");
 }
 
-void	add_remove_all_env(char **env, char **arg, int flag)
+int	add_remove_all_env(char **env, char **arg, int flag, t_minishell *mini)
 {
 	int	i;
 
@@ -109,9 +109,9 @@ void	add_remove_all_env(char **env, char **arg, int flag)
 	if (flag == 0)
 	{
 		if (arg[1] == NULL)
-			return (print_env_expo(env));
+			return (print_env_expo(env), 0);
 		if (export_checker(arg) == 0)
-			return ;
+			return (mini->temp[0] = 1);
 		while (arg[i] != NULL)
 		{
 			add_env(env, arg[i]);
@@ -127,4 +127,5 @@ void	add_remove_all_env(char **env, char **arg, int flag)
 			i++;
 		}
 	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 17:55:08 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/18 19:06:35 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/20 17:56:03 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	export_checker(char **argv)
 		while (argv[i][j] != '\0')
 		{
 			if (!((argv[i][j] >= 48 && argv[i][j] <= 57) || argv[i][j] == '_'
-					|| ft_isalpha(argv[i][j]) == 1))
+					|| ft_isalpha(argv[i][j]) == 1 || argv[i][j] == '='))
 				return (printf("%s Not a Valid Identifer\n", argv[i]), 0);
 			if ((argv[i][j] >= 48 && argv[i][j] <= 57) && j == 0)
 				return (printf("%s Not a Valid Identifer\n", argv[i]), 0);

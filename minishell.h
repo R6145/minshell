@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:12:56 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/18 19:01:09 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:12:20 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,13 +97,14 @@ int			check_here_doc(char **cmd, int j);
 char		*input_code(char *file, char *argv, int **pipe_fd,
 				t_minishell *mini);
 void		single_command(char *argv, t_minishell *mini);
+void		sing_exit(t_minishell *mini);
 char		*input_code_s(char *file, char *argv, int **pipe_fd,
 				t_minishell *mini);
 char		*create_dumbf_outs(char *argv, t_minishell *mini);
 int			check_cmd(char *cmd);
 int			check_cmd2(char *cmd);
 int			excuate(char **command, char *command1, t_minishell *mini);
-int			excuate_s(char *command1, char **env);
+int			excuate_s(char *command1, char **env, t_minishell *mini);
 void		excute_code(char **argv, int **pipe_fd, t_minishell *mini, int x);
 char		*rp_cmd(char *cmd, char *key, char *des, int j);
 char		*rp_cmd_emp(char *cmd, char *key, int j);
@@ -127,7 +128,8 @@ void		print_env(char **env);
 char		*env_key(char *cmd);
 void		add_env(char **env, char *path);
 void		env_add_emv(char **env, char *env_1);
-void		add_remove_all_env(char **env, char **arg, int flag);
+int			add_remove_all_env(char **env, char **arg, int flag,
+				t_minishell *mini);
 char		*bulid_env(char *key_env, char *path);
 void		print_env_expo(char **env);
 void		remove_env(char **env, char *path);

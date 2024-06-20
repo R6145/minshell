@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:13:25 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/10 18:38:42 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:07:52 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	minishell_choice(t_minishell *mini, char *inpt)
 		else if (mini->number_of_commands == 1 && check_cmd2(inpt) == 1)
 		{
 			exiting(inpt, mini);
-			mini->exit_status = excuate_s(inpt, mini->envps);
+			mini->exit_status = excuate_s(inpt, mini->envps, mini);
 			inpt = NULL;
 		}
 		else

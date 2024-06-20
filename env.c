@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:38:24 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/17 17:32:42 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:01:18 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,28 @@ char	*env_key(char *cmd)
 void	print_env_expo(char **env)
 {
 	int	i;
+	int	j;
 
 	i = 0;
 	while (env[i] != NULL)
 	{
+		j = 0;
 		printf("declare -x ");
-		printf("%s\n", env[i]);
+		while (env[i][j] != '\0')
+		{
+			printf("%c", env[i][j]);
+			if (env[i][j] == '=')
+			{
+				j++;
+				printf("\"");
+				while (env[i][j] != '\0')
+					printf("%c", env[i][j++]);
+				printf("\"");
+				break ;
+			}
+			j++;
+		}
+		printf("\n");
 		i++;
 	}
 }
