@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:12:56 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/20 15:12:20 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/22 15:11:55 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void		exiting(char *command1, t_minishell *mini);
 void		get_pwd(void);
 void		update_opwd(char **env, int j);
 void		update_pwd(char **env);
-int			cd(char **env, char *path);
+int			cd(char **env, char **path);
 void		echo(char **cmd);
 // env
 void		env_copy(char **env, t_minishell *mini);

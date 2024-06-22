@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 16:43:43 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/20 15:15:57 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/22 15:12:40 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	excuate(char **command, char *command1, t_minishell *mini)
 	else if (ft_strncmp(command1, "/usr/bin/pwd", 12) == 0)
 		get_pwd();
 	else if (ft_strncmp(command1, "cd", 3) == 0)
-		x = cd(mini->envps, command[1]);
+		x = cd(mini->envps, command);
 	else if (ft_strncmp(command1, "/usr/bin/echo", 13) == 0)
 		echo(command);
 	return (x);
@@ -104,7 +104,7 @@ int	excuate_s(char *command1, char **env, t_minishell *mini)
 	else if (ft_strncmp(command_s[0], "unset", 6) == 0)
 		add_remove_all_env(env, command_s, 1, mini);
 	else if (ft_strncmp(command_s[0], "cd", 3) == 0)
-		x = cd(env, command_s[1]);
+		x = cd(env, command_s);
 	free(command);
 	free_split(command_s);
 	return (x);

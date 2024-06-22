@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 21:48:19 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/10 17:05:56 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/22 15:13:12 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,15 @@ void	update_pwd(char **env)
 	update_opwd(env, -1);
 }
 
-int	cd(char **env, char *path)
+int	cd(char **env, char **path)
 {
 	int	stat;
 
-	stat = chdir(path);
+	if (path[1] == NULL)
+		return (0);
+	if (path[2] != NULL)
+		return (printf("cd: too many arguments\n"), 1);
+	stat = chdir(path[1]);
 	if (stat == -1)
 	{
 		ft_putstr_fd("No such file or directory\n", 2);
