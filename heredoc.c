@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 19:36:43 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/20 15:37:21 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/24 16:33:18 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ int	here_doc_extra(char *cmd, int fd[2], t_minishell *mini, int **pipe_fd)
 		write(fd[1], "\n", 1);
 		free(cmd);
 	}
-	return ((free(cmd), close(fd[1]), close(fd[0]), free_split(names),
-			free_mini(mini), close_pipe(pipe_fd, mini->temp[1])),
-		free_pipe(pipe_fd), free(mini->tempc), exit(0), 0);
+	if (cmd == NULL)
+		return (free_heredoc(names, fd, mini, pipe_fd), exit(150), 150);
+	return (free(cmd), free_heredoc(names, fd, mini, pipe_fd), exit(0), 0);
 }
 
 pid_t	here_doc_f(int fd[2], t_minishell *mini, int **pipe_fd)
@@ -89,6 +89,7 @@ int	here_doc(char *cmd, t_minishell *mini, int **pipe_fd)
 {
 	pid_t	pid;
 	int		fd[2];
+	int		status;
 
 	if (pipe(fd) == -1)
 	{
@@ -101,7 +102,8 @@ int	here_doc(char *cmd, t_minishell *mini, int **pipe_fd)
 	pid = here_doc_f(fd, mini, pipe_fd);
 	if (pid == 0)
 		here_doc_extra(cmd, fd, mini, pipe_fd);
-	wait(NULL);
+	waitpid(pid, &status, 0);
+	mini->exit_status = WEXITSTATUS(status);
 	close(fd[1]);
 	return (fd[0]);
 }

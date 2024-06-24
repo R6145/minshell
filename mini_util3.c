@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 19:51:37 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/20 14:56:52 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/24 16:37:57 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,10 @@ int	between_extra(char *cmd, int i0, int i1, int i2)
 void	sing_exit(t_minishell *mini)
 {
 	if (g_signal_var == -2)
-		return (free_mini(mini), exit(130));
-	if (mini->temp[1] == -1)
+		return (free_mini(mini), exit(1));
+	else if (mini->exit_status == 150)
+		return (free_mini(mini), exit(0));
+	else if (mini->temp[1] == -1)
 		return (free_mini(mini), exit(127));
 	else if (mini->temp[1] == 1)
 		return (free_mini(mini), exit(1));

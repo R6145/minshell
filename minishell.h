@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:12:56 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/22 15:11:55 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/24 16:57:05 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ char		**here_maker(char *cmd);
 int			here_doc_extra(char *cmd, int fd[2], t_minishell *mini,
 				int **pipe_fd);
 pid_t		here_doc_f(int fd[2], t_minishell *mini, int **pipe_fd);
+int			free_heredoc(char **names, int fd[2], t_minishell *mini,
+				int **pipe_fd);
 int			check_here_doc(char **cmd, int j);
 char		*input_code(char *file, char *argv, int **pipe_fd,
 				t_minishell *mini);
@@ -103,6 +105,7 @@ char		*input_code_s(char *file, char *argv, int **pipe_fd,
 char		*create_dumbf_outs(char *argv, t_minishell *mini);
 int			check_cmd(char *cmd);
 int			check_cmd2(char *cmd);
+int			check_cmd3(char *cmd);
 int			excuate(char **command, char *command1, t_minishell *mini);
 int			excuate_s(char *command1, char **env, t_minishell *mini);
 void		excute_code(char **argv, int **pipe_fd, t_minishell *mini, int x);

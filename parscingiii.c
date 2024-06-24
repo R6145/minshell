@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 17:55:08 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/20 17:56:03 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/06/24 17:10:59 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ int	check_cmd(char *cmd)
 		return (1);
 	else if (ft_strncmp(cmd, "exit", 6) == 0)
 		return (1);
-	else if (ft_strncmp(cmd, "/usr/bin/pwd", 12) == 0)
+	else if (ft_strncmp(cmd, "/usr/bin/pwd", 12) == 0 || ft_strncmp(cmd, "pwd", 4) == 0)
 		return (1);
 	else if (ft_strncmp(cmd, "cd", 3) == 0)
 		return (1);
-	else if (ft_strncmp(cmd, "/usr/bin/echo", 13) == 0)
+	else if (ft_strncmp(cmd, "/usr/bin/echo", 13) == 0 || ft_strncmp(cmd, "echo", 5) == 0)
 		return (1);
 	return (0);
 }
