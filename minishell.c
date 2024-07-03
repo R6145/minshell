@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:13:25 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/24 16:42:11 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/07/03 10:41:38 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	main(int argc, char **argv, char **envp)
 	inti(&mini);
 	env_copy(envp, &mini);
 	signal(SIGINT, signal_handler_parent);
-	signal(SIGQUIT, signal_handler_parent);
+	signal(SIGQUIT, SIG_IGN);
 	while (g_signal_var != 4)
 	{
 		g_signal_var = -1;
