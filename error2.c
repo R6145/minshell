@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 19:54:51 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/04/07 19:57:07 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/07/04 19:59:28 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ int	error_checker(char *cmd)
 	if (check_sq(cmd) != 0)
 		return (ft_putstr_fd("Missing quote", 2), (2));
 	if (redir_check(cmd) != 0)
-		return (ft_putstr_fd("Missing arguement", 2), (3));
+		return (ft_putstr_fd("Missing arguements", 2), (3));
 	if (redir_check2(cmd) != 0)
-		return (ft_putstr_fd("Wrong no of > ot <", 2), (4));
+		return (ft_putstr_fd("Missing arguements", 2), (4));
 	if (redir_check3(cmd) != 0)
-		return (ft_putstr_fd("Wrong no of > ot <", 2), (5));
+		return (ft_putstr_fd("Missing arguements", 2), (5));
 	if (pipe_check(cmd) != 0)
 		return (ft_putstr_fd("pipe argument missing", 2), (6));
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 16:20:38 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/22 15:20:13 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/07/04 20:23:02 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	ft_strncmp_env(const char *s1, const char *s2, size_t n)
 	if (*s1 == '=')
 		return ((unsigned char)('\0') - (unsigned char)(*s2));
 	else if (*s2 == '=')
-		return (unsigned char)(*s1) - (unsigned char)('\0');
+		return ((unsigned char)(*s1) - (unsigned char)('\0'));
 	return ((unsigned char)(*s1) - (unsigned char)(*s2));
 }
 

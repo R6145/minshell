@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 19:36:43 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/07/03 10:54:40 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/07/04 17:47:56 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	here_doc_extra(char *cmd, int fd[2], t_minishell *mini, int **pipe_fd)
 	while (i >= 0)
 	{
 		cmd = readline(">");
-		if (cmd == NULL)
+		if (cmd == NULL || g_signal_var == 130)
 			break ;
 		if (ft_strncmp(cmd, names[i], ft_strlen(names[i]) + 2) == 0)
 		{

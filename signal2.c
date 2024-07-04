@@ -1,20 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredocii.c                                        :+:      :+:    :+:   */
+/*   signal2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/24 16:21:01 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/07/04 18:02:53 by fmaqdasi         ###   ########.fr       */
+/*   Created: 2024/07/04 20:27:17 by fmaqdasi          #+#    #+#             */
+/*   Updated: 2024/07/04 20:30:18 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	free_heredoc(char **names, int fd[2], t_minishell *mini, int **pipe_fd)
+int	event(void)
 {
-	free(mini->tempc);
-	return ((close(fd[1]), close(fd[0]), free_split(names), free_mini(mini),
-			close_pipe(pipe_fd, mini->temp[1])), free_pipe(pipe_fd), 0);
+	return (0);
+}
+
+void	signal_init(void)
+{
+	signal(SIGINT, signal_handler_parent);
+	signal(SIGQUIT, SIG_IGN);
+	rl_catch_signals = 0;
+	rl_event_hook = event;
 }

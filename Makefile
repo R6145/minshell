@@ -6,7 +6,7 @@
 #    By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/03 18:19:18 by fmaqdasi          #+#    #+#              #
-#    Updated: 2024/06/24 16:26:14 by fmaqdasi         ###   ########.fr        #
+#    Updated: 2024/07/04 20:29:59 by fmaqdasi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRCS        := 				parscing.c \
 							heredoc.c \
 							heredocii.c \
 							signals.c \
+							signal2.c \
 							
 
 

@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 22:24:04 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/10 19:10:33 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/07/04 18:02:12 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ char	*input_code(char *file, char *argv, int **pipe_fd, t_minishell *mini)
 	}
 	else
 	{
+		mini->tempc = file;
 		fd = here_doc(argv, mini, pipe_fd);
 		temp = argv;
 		argv = cleanup_input(argv);

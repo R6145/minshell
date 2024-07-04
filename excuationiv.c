@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 16:43:43 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/24 17:17:15 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/07/04 20:09:15 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	excute_command_d(char *cmd, t_minishell *mini)
 	if (command[0] == NULL)
 		return (free_split(command), (-1));
 	command1 = create_command(command[0], find_path(mini->envps));
-	if (command1 == NULL && check_cmd(command[0]) == 0)
+	if (command1 == NULL && check_cmd3(command[0]) == 0)
 		return (ft_putstr_fd("Error: Unknown Command\n", 2),
 			free_split(command), free(command1), (-1));
 	if (check_cmd(command[0]) == 1)
@@ -33,6 +33,8 @@ int	excute_command_d(char *cmd, t_minishell *mini)
 		mini->temp[0] = excuate(command, command[0], mini);
 		return (free(command1), free_split(command), mini->temp[0]);
 	}
+	if (check_cmd3(command[0]) == 1)
+		command1 = command[0];
 	if (execve(command1, command, mini->envps) == -1)
 		ft_putstr_fd("Error: Command unable to excute\n", 2);
 	return (free_split(command), free(command1), (-1));

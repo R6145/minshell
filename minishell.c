@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:13:25 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/07/03 10:41:38 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/07/04 20:30:14 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,22 +43,28 @@ static void	minishell_exc(t_minishell *mini, char *inpt)
 	mini->exit_status = WEXITSTATUS(status);
 }
 
+static void	errors(t_minishell *mini, int temp)
+{
+	ft_putstr_fd("\n", 2);
+	if (temp == 4 || temp == 5)
+		mini->exit_status = 258;
+	else
+		mini->exit_status = 2;
+}
+
 static void	minishell_choice(t_minishell *mini, char *inpt)
 {
+	int	temp;
+
 	if (inpt == NULL)
 		return (ft_putstr_fd("\n", 2), free_mini(mini), exit(0));
 	if (inpt != NULL && inpt[0] != '\0')
 	{
 		add_history(inpt);
 		mini->number_of_commands = amount_of_commands(inpt);
-		if (error_checker(inpt))
-		{
-			ft_putstr_fd("\n", 2);
-			if (error_checker(inpt) == 4 || error_checker(inpt) == 5)
-				mini->exit_status = 258;
-			else
-				mini->exit_status = 2;
-		}
+		temp = error_checker(inpt);
+		if (temp)
+			errors(mini, temp);
 		else if (mini->number_of_commands == 1 && check_cmd2(inpt) == 1)
 		{
 			exiting(inpt, mini);
@@ -81,10 +87,9 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	inti(&mini);
 	env_copy(envp, &mini);
-	signal(SIGINT, signal_handler_parent);
-	signal(SIGQUIT, SIG_IGN);
 	while (g_signal_var != 4)
 	{
+		signal_init();
 		g_signal_var = -1;
 		inpt = readline("minishell: ");
 		if (inpt == NULL && g_signal_var == -1)

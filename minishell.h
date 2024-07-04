@@ -6,7 +6,7 @@
 /*   By: fmaqdasi <fmaqdasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 21:12:56 by fmaqdasi          #+#    #+#             */
-/*   Updated: 2024/06/24 16:57:05 by fmaqdasi         ###   ########.fr       */
+/*   Updated: 2024/07/04 20:28:31 by fmaqdasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ int			redir_check3(char *cmd);
 int			error_checker(char *cmdl);
 int			pipe_check(char *cmd);
 // signal
+void		signal_init(void);
 void		signal_handler_parent(int signum);
 void		close_g_signal_var(void);
 #endif
